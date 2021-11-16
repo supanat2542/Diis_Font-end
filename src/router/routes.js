@@ -42,6 +42,13 @@ const routes = [
     ]
   },
   {
+    path: '/editdata/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EditData.vue') }
+    ]
+  },
+  {
     path: '/test',
     component: () => import('layouts/MainLayout.vue'),
     children: [

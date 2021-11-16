@@ -17,7 +17,7 @@
                 <div class="col-md-6 col-xs-12">
                   <div class="q-pa-md">
                     <div
-                      class="text-h6 q-pb-md text-blue-8 text-center text-weight-bolder"
+                      class="text-h6 q-pb-md text-blue-8 text-center text-weight-bolder " style="margin-top:70px"
                     >
                       Login
                     </div>

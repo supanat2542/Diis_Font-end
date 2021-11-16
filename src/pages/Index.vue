@@ -5,7 +5,7 @@
       subTitle="ศูนย์กลางการควบคุม"
     ></section-header>
     <!-------------------------- Driver Card ------------------------------------>
-    <div class="text-h3 text-primary">Visitors</div>
+    <section-header title="Persons" ></section-header>
     <div class="row q-gutter-col-md">
       <div v-for="item in dashbord" :key="item.id" class="col-2">
         <div v-if="item.type == 'visitor'" >
@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="text-h3 text-primary">Items</div>
+    <section-header title="Objects" ></section-header>
      <div v-for="item in dashbord" :key="item.id" class="row q-gutter-row-md">
         <div v-if="item.type == 'item'" class="row-2">
           <item-card
