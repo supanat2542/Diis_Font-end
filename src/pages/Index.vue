@@ -17,6 +17,7 @@
           <add-card :id="item.id"></add-card>
         </div>
       </div>
+      <!-- แก้ไขหน้า index -->
     </div>
     <div class="text-h3 text-primary">Objects</div>
      <div v-for="item in dashbord" :key="item.id" class="row q-gutter-row-md">
