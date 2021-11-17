@@ -1,15 +1,10 @@
 <template>
   <q-page class="q-pa-sm">
-
-    <section-header
-      title="Edit person tag"
-      subTitle="แก้ไขข้อมูล Tag"
-    ></section-header>
+    <section-header title="Edit person tag" subTitle="แก้ไขข้อมูล Tag"></section-header>
     <div class="row q-gutter-col-md justify-center">
       <div  class="col-9" >
         <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm ">
-          <q-card-section class="text-primary" 
-          >
+          <q-card-section class="text-primary" >
             <div class="row items-center no-wrap">
               <div class="col-3">
                 <div class="text-center">
@@ -27,12 +22,7 @@
             </div>
           </q-card-section >
           <q-card-section style="margin: 30px">
-
-            <form
-              @submit.prevent.stop="onSubmit"
-              @reset.prevent.stop="onReset"
-              method="post"
-            >
+            <form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" method="post">
               <div class="row" >
                 <div class="col-2">Name</div>
                 <div class="col-4">
@@ -52,6 +42,7 @@
                 </div>
                 <div class="col-4">
                   <q-input
+                    type="text"
                     name="last name"
                     v-model="posts.last_name"
                     label="Last Name"
@@ -245,7 +236,6 @@ export default {
         console.warn(this.posts);
         const url = "http://localhost:3030/api/" 
         let result = await axios.put(url+"updateData/"+this.posts.visitor_id, {
-          
             first_name: this.posts.first_name,
             last_name: this.posts.last_name,
             tel: this.posts.tel,

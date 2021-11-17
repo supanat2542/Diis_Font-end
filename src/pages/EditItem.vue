@@ -1,14 +1,9 @@
 <template>
   <q-page class="q-pa-sm">
-    <section-header
-      title="Edit object tag"
-      subTitle="แก้ไขข้อมูล Tag"
-    ></section-header>
+    <section-header title="Edit object tag"subTitle="แก้ไขข้อมูล Tag"></section-header>
     <div class="row q-gutter-col-md justify-center">
       <div class="col-9">
-        <q-card
-          class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm"
-        >
+        <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
           <q-card-section class="text-primary">
             <div class="row items-center no-wrap">
               <div class="col-3">
@@ -27,15 +22,12 @@
             </div>
           </q-card-section>
           <q-card-section style="margin: 30px">
-            <form
-              @submit.prevent.stop="onSubmit"
-              @reset.prevent.stop="onReset"
-              method="post"
-    
+            <form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" method="post">
               <div class="row">
                 <div class="col-2">Type</div>
                 <div class="col-8">
                   <q-input
+                    type="text"
                     name="Tool"
                     v-model="posts.tool_name"
                     label="Type of object"
@@ -53,6 +45,7 @@
                 <div class="col-2">Start position</div>
                 <div class="col-8">
                   <q-input
+                    type="text"
                     name="room"
                     v-model="posts.Owner"
                     label="Room Install"
@@ -90,6 +83,7 @@
                 <div class="col-2">Person to contract</div>
                 <div class="col-8">
                   <q-input
+                    type="text"
                     v-model="posts.tool_person"
                     label="Person Install"
                     lazy-rules
@@ -140,7 +134,6 @@
         </q-card>
       </div>
     </div>
-
   </q-page>
 </template>
 
@@ -207,23 +200,21 @@ export default {
       if (
         this.posts.tool_name !== "" &&
         this.posts.Owner !== "" &&
-        this.posts.parcel_number.length == 14 &&
+        this.posts.parcel_number !== "" &&
         this.posts.tool_person !== "" &&
         this.posts.detail !== "" 
       ) {
         console.warn("connect");
         console.warn(this.posts);
         const url = "http://localhost:3030/api/" 
-        let result = await axios.put(url+"updateDataItem"+this.posts.item_id, [
-          {
+        let result = await axios.put(url+"updateDataItem/"+this.posts.item_id,{
             tool_name: this.posts.tool_name,
             Owner: this.posts.Owner,
             parcel_number: this.posts.parcel_number,
             tool_person: this.posts.tool_person,
             detail: this.posts.detail,
             tag_address: this.posts.tag_address,
-          },
-        ]);
+          });
         console.warn("Test")
         console.warn(result);
         this.$router.push("/index");
