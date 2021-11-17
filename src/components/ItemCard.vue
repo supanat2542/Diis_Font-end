@@ -85,6 +85,9 @@
         </q-card-section>
 
         <q-card-actions align="right">
+          <q-item :to="'/editItem/' + item.id" clickable class="text-center">
+                  <q-item-section>Edit</q-item-section>
+          </q-item> 
           <q-btn flat label="OK" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
