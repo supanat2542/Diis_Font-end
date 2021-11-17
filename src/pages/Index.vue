@@ -5,9 +5,10 @@
       subTitle="ศูนย์กลางการควบคุม"
     ></section-header>
     <!-------------------------- Driver Card ------------------------------------>
+    
     <div class="text-h3 text-primary">Persons</div>
     <div class="row q-gutter-col-md">
-      <div v-for="item in dashbord" :key="item.id" class="col-2">
+      <div v-for="item in dashbord" :key="item.id" class="row q-gutter-row-md">
         <div v-if="item.type == 'visitor'" >
           <device-card
             :visitor="item"
@@ -17,15 +18,17 @@
           <add-card :id="item.id"></add-card>
         </div>
       </div>
-      <!-- แก้ไขหน้า index -->
     </div>
+    <q-separator spaced />
     <div class="text-h3 text-primary">Objects</div>
+    <div class="row q-gutter-col-md">
      <div v-for="item in dashbord" :key="item.id" class="row q-gutter-row-md">
         <div v-if="item.type == 'item'" class="row-2">
           <item-card
           :item="item"
           ></item-card>
         </div>
+     </div>
      </div>
   </q-page>
 </template>

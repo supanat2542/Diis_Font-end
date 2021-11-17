@@ -18,7 +18,6 @@
     </q-card-section>
     <q-card-section class="text-primary">
       <div class="row items-center no-wrap">
-
         <div class="col-auto">
           <q-btn color="primary" round flat icon="more_vert">
             <q-menu cover auto-close>
