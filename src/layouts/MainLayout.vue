@@ -24,7 +24,7 @@
       <div class="q-ma-sm rounded-borders-20 bg-primary-gradient fixed-full shadow-15">
         <div class="text-center q-ma-xl">
           <q-avatar square size="80px">
-            <img id="profile-image" src="~assets/logo.jpg" alt="no img" />
+            <img id="profile-image" src="~assets/dd.jpg" alt="no img" />
           </q-avatar>
           <div class="text-h5 text-white q-mt-sm">Mable</div>
           <div class="text-white text-grey-5">Smart BLE Scanner Network</div>

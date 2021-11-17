@@ -199,7 +199,7 @@
                   :title="`Timeline Objects `"
                   :columns="columnsObject"
                   :data="list_object"
-                  row-key="Type"
+                  row-key="type"
                   class="rounded-borders-10 shadow-5"
                 >
                   <template v-slot:header="props">
@@ -313,14 +313,14 @@ export default {
         {
           name: "Type",
           required: true,
-          label: "Type",
+          label: "type",
           align: "left",
           field: (row) => row.type,
           format: (val) => `${val}`,
           sortable: true,
         },
         {
-          name: "parcel_number",
+          name: "Parcel number",
           align: "center",
           label: "parcel_number",
           field: "parcel_number",
