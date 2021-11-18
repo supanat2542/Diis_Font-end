@@ -42,10 +42,17 @@ const routes = [
     ]
   },
   {
-    path: '/test',
+    path: '/editdata/:id',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/test.vue') }
+      { path: '', component: () => import('pages/EditData.vue') }
+    ]
+  },
+  {
+    path: '/editItem/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EditItem.vue') }
     ]
   },
   {
@@ -60,6 +67,13 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: (id) => import('pages/timeline.vue') }
+    ]
+  },
+  {
+    path: '/object/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: (id) => import('pages/Object.vue') }
     ]
   },
 

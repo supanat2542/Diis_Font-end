@@ -19,7 +19,7 @@
               size="14px"
               class="q-ml-xs"
             />
-             {{visitor.time_out}}
+             {{ time_out}}
           </q-badge>
           </div>
         </div>
@@ -92,6 +92,9 @@
         </q-card-section>
 
         <q-card-actions align="right">
+            <q-item :to="'/editdata/' + visitor.id" clickable class="text-center">
+                  <q-item-section>Edit</q-item-section>
+            </q-item>
           <q-btn flat label="OK" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
@@ -153,7 +156,7 @@ export default {
       this.time_out="more 3 hr"
       this.showing=true
     }
-    // console.warn(this.showing)
+    console.warn("showing  -------- "+this.time_out)
   },
   methods: {
     async resetTag() {
