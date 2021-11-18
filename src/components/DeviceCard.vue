@@ -19,7 +19,7 @@
               size="14px"
               class="q-ml-xs"
             />
-             {{visitor.time_out}}
+             {{time_out}}
           </q-badge>
           </div>
         </div>
