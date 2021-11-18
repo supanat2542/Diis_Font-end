@@ -196,14 +196,12 @@ export default {
     this.listx = respx.data.result.rows;
     console.warn(this.listx);
     console.warn(this.listx[0].first_name);
-
     this.posts.first_name=this.listx[0].first_name;
     this.posts.last_name=this.listx[0].last_name;
     this.posts.tel=this.listx[0].tel;
     this.posts.id_civiliz=this.listx[0].id_civiliz;
     this.posts.Person=this.listx[0].contract;
     this.posts.category=this.listx[0].category;
-
     let resp = await axios.get(url+"visitors");
     this.count = resp.data.result.rows.length;
     this.list = resp.data.result.rows;

@@ -160,7 +160,6 @@ export default {
         }
       );
       console.warn(result);
-
       let result2 = await axios.post(url+"scanlog", [
         {
           device_address: this.item.tag_address,

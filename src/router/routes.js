@@ -56,13 +56,6 @@ const routes = [
     ]
   },
   {
-    path: '/test',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/test.vue') }
-    ]
-  },
-  {
     path: '/detail',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -74,6 +67,13 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: (id) => import('pages/timeline.vue') }
+    ]
+  },
+  {
+    path: '/object/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: (id) => import('pages/Object.vue') }
     ]
   },
 

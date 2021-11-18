@@ -65,6 +65,8 @@
                 </q-table>
               </div>
             </q-tab-panel>
+<<<<<<< HEAD
+=======
             <!-- =========================================== Print Mounthly =========================================================== -->
             <q-tab-panel name="Monthly">
               <div class="q-pa-md">
@@ -103,6 +105,7 @@
                 </q-table>
               </div>
             </q-tab-panel>
+>>>>>>> origin/main
             <!-- ================================================ Print Select Date =============================================================== -->
             <q-tab-panel name="Select Date">
               <div class="col">
@@ -210,6 +213,7 @@
                       </q-th>
                     </q-tr>
                   </template>
+<<<<<<< HEAD
 
                   <template v-slot:body="props">
                     <q-tr :props="props">
@@ -237,6 +241,30 @@
 
 
 
+=======
+
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td auto-width>
+                        <q-btn
+                          size="md"
+                          color="purple"
+                          round
+                          :id="0"
+                          :to="'/object/' + props.row.item_id"
+                          :icon="props.expand ? '' : 'inventory'"
+                        />
+                      </q-td>
+                      <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.value }}
+                      </q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
+              </div>
+        </q-tab-panel>
+      </q-tab-panels>
+>>>>>>> origin/main
   </q-page>
 </template>
 
@@ -311,11 +339,19 @@ export default {
       ],
       columnsObject: [
         {
+<<<<<<< HEAD
           name: "Type",
           required: true,
           label: "type",
           align: "left",
           field: (row) => row.type,
+=======
+          name: "Tool Name",
+          required: true,
+          label: "tool_name",
+          align: "center",
+          field: (row) => row.tool_name,
+>>>>>>> origin/main
           format: (val) => `${val}`,
           sortable: true,
         },
@@ -329,15 +365,25 @@ export default {
         {
           name: "Start position",
           align: "center",
+<<<<<<< HEAD
           label: "Time Start",
           field: "time_start",
+=======
+          label: "Owner",
+          field: "Owner",
+>>>>>>> origin/main
           sortable: true,
         },
         {
           name: "Person to contract",
           align: "center",
+<<<<<<< HEAD
           label: "Time Stop",
           field: "time_stop",
+=======
+          label: "tool_person",
+          field: "tool_person",
+>>>>>>> origin/main
           sortable: true,
         },
         {
@@ -441,7 +487,12 @@ export default {
           };
           this.list_object.push(newItem);
      }
+<<<<<<< HEAD
   console.warn(this.list_object)
+=======
+    console.warn("Object ")
+    console.warn(this.list_object)
+>>>>>>> origin/main
       for (var i = 0; i < this.dashbord.length; i++) {
         //<------------------------- List Day ----------------------------------->
         if (

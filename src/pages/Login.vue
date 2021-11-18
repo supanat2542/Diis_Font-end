@@ -90,11 +90,11 @@ export default {
 
   methods: {
     onSubmit() {
+      /// database
       if (this.name == "admin" && this.password == "admin") {
         console.warn("click submit");
         this.$router.push("/index");
       }
-      
     },
     onReset() {
       this.name = null;

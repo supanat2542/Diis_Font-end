@@ -156,7 +156,7 @@ export default {
       this.time_out="more 3 hr"
       this.showing=true
     }
-    // console.warn(this.showing)
+    console.warn("showing  -------- "+this.time_out)
   },
   methods: {
     async resetTag() {

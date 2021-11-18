@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-sm">
-    <section-header title="Edit object tag"subTitle="แก้ไขข้อมูล Tag"></section-header>
+    <section-header title="Edit object tag" subTitle="แก้ไขข้อมูล Tag"></section-header>
     <div class="row q-gutter-col-md justify-center">
       <div class="col-9">
         <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
