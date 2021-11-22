@@ -2,7 +2,7 @@
   <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
     <q-card-section class="text-primary">
       <div class="row items-center no-wrap">
-        <div class="col">
+        <div class="col" style="width:119px">
           <div class="text-center">
             <q-avatar square size="80px">
               <q-icon name="fas fa-box" color="blue-8" />
@@ -155,12 +155,12 @@ export default {
     async resetTag() {
       const url = "http://localhost:3030/api/" 
       let result = await axios.put(
-        url+"items/" + this.item.item_id, {
+        "https://diis.herokuapp.com/api/items/" + this.item.item_id, {
           time_stop: moment().format(),
         }
       );
       console.warn(result);
-      let result2 = await axios.post(url+"scanlog", [
+      let result2 = await axios.post("https://diis.herokuapp.com/api/scanlog", [
         {
           device_address: this.item.tag_address,
           scanner_id: "8e61a75d-12b7-4bda-8bc1-ed5983d33408-003",

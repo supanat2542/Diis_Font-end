@@ -7,18 +7,13 @@
     <!-------------------------- Infomation User ------------------------------------>
     <q-layout view="hHh Lpr lFf">
       <q-page-container class="bg-grey-2">
-              <div v-for="itemz in list" :key="itemz.visitor_id" >
-                <div v-if="itemz.visitor_id == id" class="row justify-center" >
+              <div v-for="item in list" :key="item.visitor_id" >
+                <div class="row justify-center" >
                 
                   <div class="col-md-8 col-xs-12 q-pa-md " >
                     <info-card
                       class="col-4"
-                      :fname="itemz.first_name"
-                      :lname="itemz.last_name"
-                      :tel="itemz.tel"
-                      :id_civiliz="itemz.id_civiliz"
-                      :category="itemz.category"
-                      :contract="itemz.contract"
+                      :info="item"
                     />
                   </div>         
                     <div class="col-md-3 col-xs-12 q-pa-md text-blue-8" >
@@ -33,7 +28,7 @@
                           ></q-img>
 
                           <q-card-section class="text-h5 text-center">
-                            <div>Tag {{ itemz.tag_id }}</div>
+                            <div>Tag {{ item.tag_id }}</div>
                           </q-card-section>
                         </q-card>
                   
@@ -46,7 +41,7 @@
         <!--------------------------- Timeline User ------------------------------------>
         <q-timeline color="secondary" style="padding-left: 4rem " >
           <q-timeline-entry heading> Timeline 
-            <div v-if="this.showing==true"class="text-subtitle1 text-yellow-9 row">
+            <div v-if="this.showing==true" class="text-subtitle1 text-yellow-9 row">
                <q-icon name="warning" size="30px"/>
                <p> Time out {{time_out}} </p>
             </div>
@@ -74,7 +69,7 @@
 import SectionHeader from "../components/SectionHeader.vue";
 import InfoCard from "../components/InfoCard.vue";
 import { axios } from "boot/axios";
-const moment = require("moment");
+const moment = require("moment-timezone");
 export default {
   components: {
     SectionHeader,
@@ -86,7 +81,7 @@ export default {
       id: this.$route.params.id,
       timeline: [],
       time: [],
-      list: undefined,
+      list: [],
       list2: undefined,
       tag: undefined,
       showing: false,
@@ -98,34 +93,22 @@ export default {
     //   location.reload(1);
     // }, 60000);
     //<------------------------- Connect Database ----------------------------------------------------------->
-    // const url = "http://localhost:3030/api/";
     const url = "http://localhost:3030/api/";
-    let resp1 = await axios.get(url + "visitors");
+    let resp1 = await axios.get("https://diis.herokuapp.com/api/visitors",{
+        params: {
+            visitor_id: this.id,
+        },
+    });
     this.list = resp1.data.result.rows;
     console.warn("list item visitors");
     console.warn(this.list);
-
-    for (var j = 0; j < this.list.length; j++) {
-      if (this.id == this.list[j].visitor_id) {
-        break;
-      }
-    }
-    console.warn(" j : " + j);
-    console.warn(" 1 : " +  this.list[j].tag_address);
-    console.warn(" 2 : " + moment(this.list[j].time_start).format(
-          "YYYY-MM-DD hh:mm:ss A"
-        ));
-    console.warn(" 3 : " +  moment(this.list[j].time_stop).add(1, 'minute').format(
-          "YYYY-MM-DD hh:mm:ss A"
-        ));
-
-    let resp2 = await axios.get(url + "selectlog", {
+    let resp2 = await axios.get("https://diis.herokuapp.com/api/selectlog", {
       params: {
-        device_address: this.list[j].tag_address,
-        time_start: moment(this.list[j].time_start).format(
+        device_address: this.list[0].tag_address,
+        time_start: moment(this.list[0].time_start).format(
           "YYYY-MM-DD hh:mm:ss A"
         ),
-        time_stop: moment(this.list[j].time_stop).add(1, 'minute').format(
+        time_stop: moment(this.list[0].time_stop).add(1, 'minute').format(
           "YYYY-MM-DD hh:mm:ss A"
         ),
       },
@@ -138,7 +121,7 @@ export default {
     var rooms = this.list2[0].room;
     var times = moment(this.list2[0].scan_timestamp).format("hh:mm A")
     console.warn(moment(this.list2[0].scan_timestamp).format("hh:mm A"))
-    if (this.list[j].time_stop == null) {
+    if (this.list[0].time_stop == null) {
       this.time.push("In Use Now.");
     }
     for (var i = 0; i < this.list2.length; i++) {
@@ -168,47 +151,7 @@ export default {
     
     this.timeline.push(this.time);
     console.warn(this.timeline);
-    // console.warn(10**(((-69)-(-85))/(10 * 2)))
-    
-    // for (var i = 0; i < this.list2.length; i++) {
-      // console.warn(this.list2[i].room +" ==== "+rooms+" ---> "+i)
-      // console.warn(moment(this.list2[i].scan_timestamp).format("hh:mm A") +" ==== "+ this.time[this.time.length-1]+" : "+i)
-      //  if(moment(this.list2[i].scan_timestamp).format("hh:mm A")==this.time[this.time.length-1]&&this.list2[i].room!=rooms){
-      //   console.warn("kanssssssssssssssssssssssssssssssssss")
-      //   console.warn(this.list2[i-1].device_rssi+" // "+this.list2[i].device_rssi)
-      //   var diis_1 = 10**(((-69)-(this.list2[i-1].device_rssi))/(10 * 2))
-      //   var diis_2 = 10**(((-69)-(this.list2[i].device_rssi))/(10 * 2))
-      //   console.warn(diis_1+" -- "+diis_2)
-      //   if(diis_1>diis_2){
-      //     console.warn("Beafore")
-      //     console.warn(this.time)
-      //     // this.time = [];
-      //     console.warn("After")
-      //     console.warn(this.time)
-      //   }
-      // } else 
-      // if (this.list2[i].room != rooms && moment(this.list2[i].scan_timestamp).format("hh:mm A") != this.time[this.time.length-1]) {
-      //   console.warn("Date : "+moment(this.list2[i].scan_timestamp).format("YYYY-MM-DD"))
-      //   this.time.push(this.list2[i - 1].room);
-      //   this.time.push(
-      //     moment(this.list2[i].scan_timestamp).format("YYYY-MM-DD")
-      //   );
-      //   this.timeline.push(this.time);
-      //   console.warn(this.time)
-      //   this.time = [];
-      //   rooms = this.list2[i].room;
-      //   times = moment(this.list2[i].scan_timestamp).format("hh:mm A")
-      //   --i;
-      // } else if(this.list2[i].room != rooms && moment(this.list2[i].scan_timestamp).format("hh:mm A") == this.time[this.time.length-1]){
-      //   console.warn("kanssssssssssssssssssssssssssss")
-      //    console.warn(this.time)
-      //    ++i
-      // }else {
-      //   this.time.push(moment(this.list2[i].scan_timestamp).format("hh:mm A"));
-      //   console.warn(moment(this.list2[i].scan_timestamp).format("hh:mm A"))
-      // }
-      
-    // }
+
      console.warn(this.list2[0].scan_timestamp+" == "+moment().format())
     var now = moment().format()
     var last = this.list2[0].scan_timestamp
@@ -223,13 +166,13 @@ export default {
       this.time_out=""
       this.showing=false
     }else if(time_out==1){
-      this.time_out="1 hr"
+      this.time_out=time_out+" hr"
       this.showing=true
     }else if(time_out==2){
-      this.time_out="2 hr"
+      this.time_out=time_out+" hr"
       this.showing=true
     }else if(time_out>=3){
-      this.time_out="more 3 hr"
+      this.time_out="more "+time_out+" hr"
       this.showing=true
     }
     }

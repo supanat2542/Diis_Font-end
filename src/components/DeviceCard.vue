@@ -2,7 +2,7 @@
   <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
     <q-card-section class="text-primary">
       <div class="row items-center no-wrap">
-        <div class="col">
+        <div class="col" >
           <div class="text-center">
             <q-avatar square size="80px">
               <q-icon name="fas fa-user-tag" color="orange-8" />
@@ -122,7 +122,7 @@
 
 <script>
 import { axios } from "boot/axios";
-const moment = require("moment");
+const moment = require("moment-timezone");
 export default {
   props: [
     "visitor"
@@ -136,13 +136,12 @@ export default {
     };
   },
   mounted() {
-    // console.warn(this.timestamp+" == "+moment().format())
+    console.warn(this.visitor)
     var now = moment().format()
     var last = this.visitor.timestamp
     var now_time = moment(now)
     var last_time = moment(last)
     var time_out =now_time.diff(last_time, 'hours')
-    // console.warn("Time Out : "+time_out)
     if(time_out==0){
       this.time_out=""
       this.showing=false
@@ -161,22 +160,18 @@ export default {
   methods: {
     async resetTag() {
       const url = "http://localhost:3030/api/" 
-      let result = await axios.put(
-        url+"visitors/" + this.visitor.visitor_id, {
+      let result = await axios.put("https://diis.herokuapp.com/api/visitors/" + this.visitor.visitor_id, {
           time_stop: moment().format(),
-        }
-      );
+        });
       console.warn(result);
-
-      let result2 = await axios.post(url+"scanlog", [
-        {
-          device_address: this.visitor.tag_address,
-          scanner_id: "8e61a75d-12b7-4bda-8bc1-ed5983d33408-003",
-        },
-      ]);
-      console.warn("kans : "+ this.visitor.tag_address)
+      let result2 = await axios.post("https://diis.herokuapp.com/api/scanlog", [
+          {
+            device_address: this.visitor.tag_address,
+            scanner_id: "8e61a75d-12b7-4bda-8bc1-ed5983d33408-003",
+          },
+        ]);
       console.warn(result2);
-      visitor.location.reload();
+      location.reload();
     },
   },
 };

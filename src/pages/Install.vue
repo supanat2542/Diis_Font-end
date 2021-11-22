@@ -175,7 +175,7 @@ export default {
   async mounted() {
     //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 
-    let resp2 = await axios.get(url+"tags");
+    let resp2 = await axios.get("https://diis.herokuapp.com/api/tags");
     this.list2 = resp2.data.result.rows;
     console.warn(this.list2);
 
@@ -189,6 +189,9 @@ export default {
     console.warn("tag id : "+this.posts.tag_address);
   },
   methods: {
+    
+
+
     //<------------------------- Fuction Add Data ------------------------------------------ -->
     async onSubmit() {
       // console.warn(" 1 : "+this.posts.first_name + " 2 : "+this.posts.last_name + " 3 : "+this.posts.tel + " 4 : "+this.posts.category +" 5 : "+ this.posts.id_civiliz  +" 6 : "+ this.posts.Person + " 7 : "+ this.posts.tel.length)
@@ -202,7 +205,7 @@ export default {
         console.warn("connect");
         console.warn(this.posts);
         const url = "http://localhost:3030/api/" 
-        let result = await axios.post(url+"items", [
+        let result = await axios.post("https://diis.herokuapp.com/api/items", [
           {
             tool_name: this.posts.tool_name,
             Owner: this.posts.Owner,
@@ -214,7 +217,7 @@ export default {
         ]);
         console.warn(result);
 
-        let result2 = await axios.post(url+"scanlog", [
+        let result2 = await axios.post("https://diis.herokuapp.com/api/scanlog", [
           {
             device_address: this.posts.tag_address,
             scanner_id: "8e61a75d-12b7-4bda-8bc1-ed5983d33408-003",

@@ -163,11 +163,11 @@ export default {
   async mounted() {
     //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 
-    let resp2 = await axios.get(url+"tags");
+    let resp2 = await axios.get("https://diis.herokuapp.com/api/tags");
     this.list2 = resp2.data.result.rows;
     console.warn(this.list2);
     console.warn(this.list2[this.id-1].tag_address)
-    let respx = await axios.get(url+"editItem",{
+    let respx = await axios.get("https://diis.herokuapp.com/api/editItem",{
       params: {
             tag_address: this.list2[this.id-1].tag_address,
           },
@@ -182,14 +182,14 @@ export default {
     this.posts.tool_person=this.listx[0].tool_person;
     this.posts.detail=this.listx[0].detail;
 
-    let resp = await axios.get(url+"items");
+    let resp = await axios.get("https://diis.herokuapp.com/api/items");
     this.count = resp.data.result.rows.length;
     this.list = resp.data.result.rows;
     console.warn(this.list);
     console.warn("id last "+this.list[this.count - 1].item_id + 1);
     this.posts.item_id = this.listx[0].item_id;
     console.warn("this.item"+this.posts.item_id);
-    let resp4 = await axios.get(url + "scanlog");
+    let resp4 = await axios.get("https://diis.herokuapp.com/api/scanlog");
     this.list4 = resp4.data.result.rows;
     console.warn("list4 scanerlog");
     console.warn(this.list4);
@@ -207,7 +207,7 @@ export default {
         console.warn("connect");
         console.warn(this.posts);
         const url = "http://localhost:3030/api/" 
-        let result = await axios.put(url+"updateDataItem/"+this.posts.item_id,{
+        let result = await axios.put("https://diis.herokuapp.com/api/updateDataItem/"+this.posts.item_id,{
             tool_name: this.posts.tool_name,
             Owner: this.posts.Owner,
             parcel_number: this.posts.parcel_number,

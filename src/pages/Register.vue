@@ -168,6 +168,7 @@ import SectionHeader from "../components/SectionHeader.vue";
 import DeviceCard from "../components/DeviceCard.vue";
 import AddCard from "../components/AddCard.vue";
 import { axios } from "boot/axios";
+const moment = require("moment");
 export default {
   name: "PageIndex",
   components: {
@@ -195,14 +196,8 @@ export default {
   async mounted() {
     //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 
-    let resp = await axios.get(url+"visitors");
-    this.count = resp.data.result.rows.length;
-    this.list = resp.data.result.rows;
-    console.warn(this.list);
-    // console.warn("id last "+this.list[this.count - 1].visitor_id + 1);
-    this.posts.visitor_id = this.list[this.count - 1].visitor_id + 1;
 
-    let resp2 = await axios.get(url+"tags");
+    let resp2 = await axios.get("https://diis.herokuapp.com/api/tags");
     this.list2 = resp2.data.result.rows;
     console.warn(this.list2);
 
@@ -232,7 +227,7 @@ export default {
         console.warn("connect");
         console.warn(this.posts);
         const url = "http://localhost:3030/api/" 
-        let result = await axios.post(url+"visitors", [
+        let result = await axios.post("https://diis.herokuapp.com/api/visitors", [
           {
             tag_address: this.taguse_address,
             first_name: this.posts.first_name,
@@ -241,11 +236,12 @@ export default {
             category: this.posts.category,
             id_civiliz: this.posts.id_civiliz,
             contract: this.posts.Person,
+            time: moment().format("YYYY-MM-DDTHH:mm:ss.SSSSZ"),
           },
         ]);
         console.warn(result);
 
-        let result2 = await axios.post(url+"scanlog", [
+        let result2 = await axios.post("https://diis.herokuapp.com/api/scanlog", [
           {
             device_address: this.taguse_address,
             scanner_id: "8e61a75d-12b7-4bda-8bc1-ed5983d33408-003",

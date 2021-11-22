@@ -250,7 +250,7 @@ export default {
       panel:'persons',
       tab: "Dairy",
       select_room: null,
-      date: null,
+      date: moment().format("[Date] DD"),
       month: moment().format("YYYY/MM"),
       list_month: [],
       list_day: [],
@@ -354,23 +354,22 @@ export default {
     // }, 60000);
     //<------------------------- Connect Database ----------------------------------->
     const url = "http://localhost:3030/api/" 
-    let resp1 = await axios.get(url+"visitors");
+    let resp1 = await axios.get("https://diis.herokuapp.com/api/visitors");
     this.list1 = resp1.data.result.rows;
     console.warn("Visitor ");
-    console.warn(resp1.data.result.rows);
-
-    let resp2 = await axios.get(url+"scanlog");
+    console.warn(resp1.data.result.rows); 
+    let resp2 = await axios.get("https://diis.herokuapp.com/api/scanlog");
     this.list2 = resp2.data.result.rows;
     console.warn("list2 scanerlog kk");
     console.warn(this.list2);
 
-    let resp3 = await axios.get(url+"locations");
+    let resp3 = await axios.get("https://diis.herokuapp.com/api/locations");
     this.list3 = resp3.data.result.rows;
     console.warn("list3 room");
     console.warn(this.list3);
 
 ////item/////
-    let resp4 = await axios.get(url+"items");
+    let resp4 = await axios.get("https://diis.herokuapp.com/api/items");
     this.list4 = resp4.data.result.rows;
     console.warn("list4 items");
     console.warn(this.list4);

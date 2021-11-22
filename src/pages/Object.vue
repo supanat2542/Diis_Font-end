@@ -81,7 +81,7 @@ export default {
   },
   async mounted() {
         const url = "http://localhost:3030/api/";
-        let resp = await axios.get(url + "items",{
+        let resp = await axios.get("https://diis.herokuapp.com/api/items",{
         params: {
             item_id: this.id,
         },
@@ -89,7 +89,7 @@ export default {
         this.list = resp.data.result.rows;
         console.warn("list item items");
         console.warn(this.list);
-        let resp2 = await axios.get(url + "selectlog", {
+        let resp2 = await axios.get("https://diis.herokuapp.com/api/selectlog", {
         params: {
             device_address: this.list[0].tag_address,
             time_start: moment(this.list[0].time_start).format(
