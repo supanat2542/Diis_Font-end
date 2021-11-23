@@ -2,7 +2,7 @@
   <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
     <q-card-section class="text-primary">
       <div class="row items-center no-wrap">
-        <div class="col">
+        <div class="col" style="width:119px;">
           <div class="text-center">
             <q-avatar square size="80px">
               <q-icon name="fas fa-box" color="blue-8" />

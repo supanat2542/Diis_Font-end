@@ -5,8 +5,10 @@
       subTitle="ศูนย์กลางการควบคุม"
     ></section-header>
     <!-------------------------- Driver Card ------------------------------------>
-    
-    <div class="text-h3 text-primary">Persons</div>
+    <section-header
+      title="Persons"
+    ></section-header>
+  
     <div class="row q-gutter-col-md">
       <div v-for="item in dashbord" :key="item.id" class="row q-gutter-row-md">
         <div v-if="item.type == 'visitor'" >
@@ -19,21 +21,21 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-    <section-header title="Objects" ></section-header>
-=======
-    <q-separator spaced />
-    <div class="text-h3 text-primary">Objects</div>
+    <section-header
+      title="Objects"
+    ></section-header>
+    </div>
+    
     <div class="row q-gutter-col-md">
->>>>>>> origin/main
      <div v-for="item in dashbord" :key="item.id" class="row q-gutter-row-md">
-        <div v-if="item.type == 'item'" class="row-2">
+        <div v-if="item.type == 'item'" >
           <item-card
           :item="item"
           ></item-card>
         </div>
      </div>
      </div>
+    
   </q-page>
 </template>
 
@@ -62,7 +64,7 @@ export default {
     //   location.reload(1);
     // }, 60000);
     //<------------------------- Connect Database ----------------------------------->
-    const url = "http://localhost:3030/api/";
+    const url = "https://diis.herokuapp.com/api/";
     let resp = await axios.get(url + "visitors");
     this.list = resp.data.result.rows;
     console.warn("list item visitors");

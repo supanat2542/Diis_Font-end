@@ -4,15 +4,14 @@
       title="Map"
       subTitle="แสดง Tag ติดตาม ณ เวลาปัจจุบัน"
     ></section-header>
-    <div class="row">
-      <div class="col q-ma-md">
-        <div class="text-h4 text-primary" style="margin-left: 30px">
-          Floor 1
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <q-img class="profile-image" src="~assets/map_1.jpg" native-context-menu>
+
+  <div class="q-pa-md "  >
+    <div class="q-gutter-md " style="max-width: 300px">
+      <q-select standout="bg-secondary text-white" v-model="model" :options="options" label="Select floor" />
+     </div>
+  </div>
+  <div v-if="this.model=='floor2'" class="container">
+      <q-img class="profile-image" src="~assets/map_2.jpg" native-context-menu>
       </q-img>
       <!--------------------------- Location Hall --------------------------------- -->
       <div class="hall-1 row q-gutter-y-lg ">
@@ -61,6 +60,60 @@
         </div>
       </div>
     </div>
+    <div v-if="this.model=='floor4'" class="container">
+      <q-img class="profile-image" src="~assets/map_4.jpg" native-context-menu>
+      </q-img>
+      <!--------------------------- Location Hall --------------------------------- -->
+      <div class="hall-1 row q-gutter-y-lg ">
+         <div v-for="item in dashbord" :key="item.id">
+          <icon-map v-if="item.location == 'Hall' && item.type == 'visitor'" :visitor="item" ></icon-map>
+          <icon-item v-if="item.location == 'Hall' && item.type == 'item'" :item="item" ></icon-item>
+         </div>
+      </div>
+      <!--------------------------- Location Room 103 --------------------------------- -->
+      <div class="room-103 q-gutter-y-xl q-gutter-x-sm">
+          <div v-for="item in dashbord" :key="item.id">
+              <icon-map
+              v-if="item.location == 103" 
+                class="col"
+                :visitor="item"
+              ></icon-map>
+          </div>
+      </div>
+      <!--------------------------- Location Room 105 --------------------------------- -->
+      <div class="room-105 q-gutter-y-xl q-gutter-x-sm">
+          <div v-for="item in dashbord" :key="item.id ">
+              <icon-map
+              v-if="item.location == 105" 
+              class="col"
+                :visitor="item"
+              ></icon-map>
+          </div>
+      </div>
+      <!--------------------------- Location Room 107 --------------------------------- -->
+      <div class="room-107 row q-gutter-y-xl ">
+        <template v-for="item in dashbord">
+          <div v-if="item.location == 107" :key="item.id" class="col-4">
+            <icon-map
+              :visitor="item"
+            ></icon-map>
+          </div>
+        </template>
+      </div>
+      <!--------------------------- Location Room 102 --------------------------------- -->
+      <div class="room-102 row q-gutter-y-md">
+        <div v-for="item in dashbord"  :key="item.id">
+          <icon-map class="col-4"
+            v-if="item.location == 102"
+            :visitor="item"
+          ></icon-map>
+        </div>
+      </div>
+    </div>
+       
+
+ 
+    
   </q-page>
 </template>
 
@@ -79,6 +132,10 @@ export default {
   data() {
     return {
       dashbord: [],
+      model: 'floor2',
+      options: [
+        'floor2', 'floor4'
+      ]
     };
   },
   async mounted() {
