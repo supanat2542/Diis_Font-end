@@ -2,9 +2,9 @@
   <q-card  class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
     <q-card-section class="text-primary">
       <div class="row items-center no-wrap">
-        <div class="col" style="width:240px;">
+        <div class="col" style="width:282px;">
         <div class="text-center">
-        <q-avatar square size="180px">
+        <q-avatar square size="220px">
           <q-icon name="fas fa-wifi" color="red-8" style="font-size: 5rem;"/>
         </q-avatar>
       </div>

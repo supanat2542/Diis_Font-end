@@ -14,9 +14,9 @@
       </q-card-section>
 
       <q-card-section class="bg-info">
-        <p>name: {{ userData[0].name }}</p>
-        <p>tel: {{ userData[0].tel}}</p>
-        <p>type: {{ userData[0].type }}</p>
+        <p>Name: {{ userData[0].name }}</p>
+        <p>Tel: {{ userData[0].tel}}</p>
+        <p>Category: {{ userData[0].type }}</p>
         <p>location: {{ userData[0].location }}</p>
       </q-card-section>
 

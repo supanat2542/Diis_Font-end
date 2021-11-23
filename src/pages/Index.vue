@@ -17,7 +17,7 @@
           <add-card v-else-if="item.type == 'add_card'" :id="item.id"></add-card>
       </a>
     </div>
-    
+    <!-- <q-btn @click=onSubmits()>enter send data</q-btn> -->
     <section-header
       title="Objects"
     ></section-header>
@@ -30,6 +30,7 @@
           ></item-card>
         </div>
      </div>
+     
      </div>
   </q-page>
 </template>
@@ -151,150 +152,27 @@ export default {
       }
       
     }
-
-    // for (var i = 0; i < this.list5.length; i++){
-      
-    //   if( this.list.length==0){
-    //     if(this.list2.length==0){
-    //       // add card[i]
-    //       this.add_card(this.list5[i].tag_id,this.list5[i].tag_address)
-
-    //     }else{
-    //       // add item[i]
-    //       // add card[i]
-    //       this.item_card(this.list5[i].tag_id,this.list5[i].tag_address)
-    //     }
-    //   }
-    //   if(this.list2.length==0){
-    //     // add visitor[i]
-    //     // add card[i]
-    //     this.visiter_card(this.list5[i].tag_id,this.list5[i].tag_address)
-    //   }else{
-    //     // add visitor[i]
-    //     // add item[i]
-    //     // add card[i]
-    //     this.visitor_item_card(this.list5[i].tag_id,this.list5[i].tag_address)
-    //   }
-      
-    // }
-
     console.warn("listh dahs");
     console.warn(this.dashbord);
   },
-//    methods: {
-//     add_card: function (tag_id,tag_address) {
-//       console.log("in add "+tag_id)
-      // const newItem = {
-      //      type: 'add_card',
-      //      tag_address: tag_address,
-      //      id: tag_id,
-      // };
-      // this.dashbord.push(newItem);
-//     },
-//     item_card: async function(tag_id,tag_address){
-//       for(var u = 0; u < this.list2.length; u++){
-//         if(tag_address == this.list2[u].tag_address){
-//           console.log("in item "+tag_id)
-            // let resp4 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
-            // params: {
-            //   tag_address: tag_address,
-            //   time_start: moment(this.list2[u].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-            //   time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-            // }});
-            // this.list4 = resp4.data.result.rows;
-            // const newItem = {
-            //   id: tag_id,
-            //   item_id: this.list2[u].item_id,
-            //   tag_address: tag_address,
-            //   tool_name:this.list2[u].tool_name,
-            //   Owner:this.list2[u].Owner,
-            //   parcel_number:this.list2[u].parcel_number,
-            //   tool_person:this.list2[u].tool_person,
-            //   detail:this.list2[u].detail,
-            //   location: this.list4[0].room,
-            //   time_start: moment(this.list2[u].time_start).format(" hh:mm A"),
-            //   type: 'item'
-            // };
-            // this.dashbord.push(newItem);
-//             break;
-//         }else if(u == this.list2.length-1){
-          
-//           this.add_card(tag_id,tag_address)
-//           break;
-//         }
-//       }
-//     },
-//     visiter_card: async function(tag_id,tag_address){
-//       for (var j = 0; j < this.list.length; j++){
-//         if(tag_address == this.list[j].tag_address){
-//           console.log("in visitor "+tag_id)
-            // let resp4 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
-            //     params: {
-            //     tag_address: tag_address,
-            //     time_start: moment(this.list[j].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-            //     time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-            //     }});
-            // this.list4 = resp4.data.result.rows;
-            // console.warn(this.list4);
-            // const newItem = {
-            //   id: tag_id,
-            //   visitor_id: this.list[j].visitor_id,
-            //   fname: this.list[j].first_name,
-            //   lname: this.list[j].last_name,
-            //   tel: this.list[j].tel,
-            //   contract: this.list[j].contract,
-            //   category: this.list[j].category,
-            //   location: this.list4[0].room,
-            //   timestamp:moment(this.list4[0].scan_timestamp).tz('Asia/Bangkok').format(),
-            //   tag_address: tag_address,
-            //   time_start: moment(this.list[j].time_start).tz('Asia/Bangkok').format(" hh:mm A"),
-            //   id_civiliz: this.list[j].id_civiliz,
-            //   type: 'visitor'
-            // };
-            // this.dashbord.push(newItem);
-//             break
-//         }else if(j == this.list.length-1){
-//           this.add_card(tag_id,tag_address)
-//           break
-//         }
-//       }
-//     },
-//     visitor_item_card: async function(tag_id,tag_address){
-
-//       for (var j = 0; j < this.list.length; j++){
-//         if(tag_address == this.list[j].tag_address){
-//             console.log("in visitor "+tag_id)
-//             let resp4 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
-//                 params: {
-//                 tag_address: tag_address,
-//                 time_start: moment(this.list[j].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-//                 time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-//                 }});
-//             this.list4 = resp4.data.result.rows;
-//             console.warn(this.list4);
-//             const newItem = {
-//               id: tag_id,
-//               visitor_id: this.list[j].visitor_id,
-//               fname: this.list[j].first_name,
-//               lname: this.list[j].last_name,
-//               tel: this.list[j].tel,
-//               contract: this.list[j].contract,
-//               category: this.list[j].category,
-//               location: this.list4[0].room,
-//               timestamp:moment(this.list4[0].scan_timestamp).tz('Asia/Bangkok').format(),
-//               tag_address: tag_address,
-//               time_start: moment(this.list[j].time_start).tz('Asia/Bangkok').format(" hh:mm A"),
-//               id_civiliz: this.list[j].id_civiliz,
-//               type: 'visitor'
-//             };
-//             this.dashbord.push(newItem);
-//             break;
-//         }else if(j == this.list.length-1){
-//           this.item_card(tag_id,tag_address)
-//           break;
-//         }
-//       }
-//     },
-//   }
+   methods: {
+    async onSubmits() {
+        console.warn("counctionss")
+        let result = await axios.post("https://diis.herokuapp.com/api/eventsarr", [
+          {
+            scanner_id: '68:4d:6b:75:fe:b5',
+            device_address: '2021-02-10 09:00:00',
+            device_name : '2021-02-10 19:00:00',
+            device_appearance: '2021-02-10 19:00:00',
+            device_manufacturerdata: '2021-02-10 19:00:00',
+            device_serviceuuid: '2021-02-10 19:00:00',
+            device_txpower: '2021-02-10 19:00:00',
+            device_rssi: '2021-02-10 19:00:00',
+          },
+        ]);
+        console.warn(result);
+     
+    },
+  }
 };
 </script>

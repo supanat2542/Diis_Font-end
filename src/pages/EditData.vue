@@ -57,20 +57,20 @@
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">tel</div>
+                <div class="col-2">Tel</div>
                 <div class="col-8">
                   <q-input
                     type="text"
                     v-model="posts.tel"
-                    label="Number tel"
+                    label="Phone number"
                     mask="### - #######"
                     lazy-rules
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please type your number tel',
+                        'Please type your phone number',
                       (val) =>
-                        val.length >= 13 || 'Please enter your real number tel',
+                        val.length >= 13 || 'Please enter your real phone number',
                     ]"
                   />
                 </div>
@@ -96,27 +96,27 @@
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">Person Contract</div>
+                <div class="col-2">Person to Contact</div>
                 <div class="col-8">
                   <q-input
                     v-model="posts.Person"
-                    label="Person Contract"
+                    label="Person to Contact"
                     lazy-rules
                     maxlength="20"
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter your person contract',
+                        'Please enter your person to contact',
                     ]"
                   />
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">category</div>
+                <div class="col-2">Category</div>
                 <div class="col-8">
                   <q-input
                     v-model="posts.category"
-                    label="category to contract"
+                    label="Category to contact"
                     lazy-rules
                     maxlength="20"
                     :rules="[

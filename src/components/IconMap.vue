@@ -1,9 +1,9 @@
 <template>
-<div>
+  <div>
 
   <q-icon
     name="fas fa-user-tag"
-    class="tag blink row q-gutter-xs"
+    class="tag blink row q-gutter-sm"
     color="orange-8"
     size="30px"
   >

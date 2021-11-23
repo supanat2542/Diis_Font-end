@@ -67,7 +67,7 @@
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">tel</div>
+                <div class="col-2">Tel</div>
                 <div class="col-8">
                   <q-input
                     type="text"
@@ -78,15 +78,15 @@
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please type your number tel',
+                        'Please type your phone number',
                       (val) =>
-                        val.length >= 13 || 'Please enter your real number tel',
+                        val.length >= 13 || 'Please enter your real phone number',
                     ]"
                   />
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">ID Civilizecation</div>
+                <div class="col-2">ID card number</div>
                 <div class="col-8">
                   <q-input
                     type="text"
@@ -106,17 +106,17 @@
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">Person Contract</div>
+                <div class="col-2">Person to contact</div>
                 <div class="col-8">
                   <q-input
                     v-model="posts.Person"
-                    label="Person Contract"
+                    label="Person to Contract"
                     lazy-rules
                     maxlength="20"
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter your person contract',
+                        'Please enter your person contact',
                     ]"
                   />
                 </div>
@@ -126,7 +126,7 @@
                 <div class="col-8">
                   <q-input
                     v-model="posts.category"
-                    label="category to contract"
+                    label="Category to contract"
                     lazy-rules
                     maxlength="20"
                     :rules="[

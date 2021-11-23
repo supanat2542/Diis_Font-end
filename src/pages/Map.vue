@@ -4,23 +4,15 @@
       title="Map"
       subTitle="แสดง Tag ติดตาม ณ เวลาปัจจุบัน"
     ></section-header>
-    <div class="row">
-      <div class="col q-ma-md">
-        <div class="text-h4 text-primary" style="margin-left: 30px">
-          Floor 1
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <q-img class="profile-image" src="~assets/map_1.jpg" native-context-menu>
+    <div class="q-pa-md "  >
+    <div class="q-gutter-md " style="max-width: 300px">
+      <q-select standout="bg-secondary text-white" v-model="models" :options="options" label="Select floors" />
+     </div>
+  </div>
+     <!--------------------------- ////////////////////////////////////////////floors 4--------------------------------- -->  
+    <div v-if="this.models=='floors 2'" class="container">
+      <q-img class="profile-image" src="~assets/map_2.jpg" native-context-menu>
       </q-img>
-      <!--------------------------- Location 1405 --------------------------------- -->
-      <div class="room-1405 row q-gutter-y-lg ">
-         <div v-for="item in dashbord" :key="item.id">
-          <icon-map v-if="item.location == '1405' && item.type == 'visitor'" :visitor="item" ></icon-map>
-          <icon-item v-if="item.location == '1405' && item.type == 'item'" :item="item" ></icon-item>
-         </div>
-      </div>
       <!--------------------------- Location Room 1207 --------------------------------- -->
       <div class="room-1207 q-gutter-y-xl q-gutter-x-sm">
           <div v-for="item in dashbord" :key="item.id">
@@ -31,35 +23,49 @@
               ></icon-map>
           </div>
       </div>
+      <!--------------------------- Location Room GEOLAB --------------------------------- -->
+      <div class="room-GEOLAB row q-gutter-y-md">
+        <div v-for="item in dashbord"  :key="item.id">
+          <icon-map class="col-4"
+            v-if="item.location == 'GEOLAB'"
+            :visitor="item"
+          ></icon-map>
+        </div>
+      </div>
+    </div>
+   <!--------------------------- ////////////////////////////////////////////floors 4--------------------------------- -->  
+    <div v-if="this.models=='floors 4'" class="container">
+      <q-img class="profile-image" src="~assets/map_4.jpg" native-context-menu>
+      </q-img>
+      <!--------------------------- Location 1405 --------------------------------- -->
+      <div class="room-1405 row q-gutter-y-lg ">
+         <div v-for="item in dashbord" :key="item.id" class="col-4">
+          <icon-map v-if="item.location == '1405' && item.type == 'visitor'" :visitor="item" ></icon-map>
+          <icon-item v-if="item.location == '1405' && item.type == 'item'" :item="item" ></icon-item>
+         </div>
+      </div>
+      
       <!--------------------------- Location Room 1406 --------------------------------- -->
-      <div class="room-1406 q-gutter-y-xl q-gutter-x-sm">
-          <div v-for="item in dashbord" :key="item.id ">
+      <div class="room-1406 row q-gutter-y-lg">
+          <div v-for="item in dashbord" :key="item.id" class="col-4">
               <icon-map
               v-if="item.location == 1406" 
-              class="col"
                 :visitor="item"
               ></icon-map>
           </div>
       </div>
-      <!--------------------------- Location Room 1407 --------------------------------- -->
-      <div class="room-1407 row q-gutter-y-xl ">
+      <!--------------------------- Location Room 1408 --------------------------------- -->
+      <div class="room-1408 row q-gutter-y-mb ">
         <template v-for="item in dashbord">
-          <div v-if="item.location == 1407" :key="item.id" class="col-4">
+          <div v-if="item.location == 1408" :key="item.id" class="col-3">
             <icon-map
+              
               :visitor="item"
             ></icon-map>
           </div>
         </template>
       </div>
-      <!--------------------------- Location Room GEOLab --------------------------------- -->
-      <div class="room-GEOLab row q-gutter-y-md">
-        <div v-for="item in dashbord"  :key="item.id">
-          <icon-map class="col-4"
-            v-if="item.location == 'GEOLab'"
-            :visitor="item"
-          ></icon-map>
-        </div>
-      </div>
+      
     </div>
   </q-page>
 </template>
@@ -79,9 +85,14 @@ export default {
   data() {
     return {
       dashbord: [],
+      models:'floors 2',
+      options:[
+        'floors 2','floors 4'
+      ]
     };
   },
   async mounted() {
+    
     // setTimeout(function () {
     //   location.reload(1);
     // }, 60000);
@@ -125,7 +136,8 @@ export default {
              location: this.list3[0].room,
              visitor_id: this.list[i].visitor_id,
              timestamp:moment(this.list3[0].scan_timestamp).format(),
-             type:"visitor"
+             type:"visitor",
+             floors:"floors "+this.list3[0].floor,
       };
       this.dashbord.push(newItem);
     }
@@ -172,9 +184,9 @@ img {
   height: 250px;
   overflow: hidden;
 }
-.room-GEOLab {
+.room-GEOLAB {
   position: absolute;
-  top: 52.5%;
+  top: 40%;
   left: 48%;
   width: 250px;
   height: 220px;
@@ -190,17 +202,18 @@ img {
 }
 .room-1406 {
   position: absolute;
-  top: 19.5%;
-  left: 63.8%;
-  width: 70px;
+  top: 22%;
+  left: 24.5%;
+  width: 200px;
   height: 250px;
   overflow: hidden;
 }
-.room-1407 {
+.room-1408 {
   position: absolute;
-  top: 19.5%;
-  left: 68.3%;
-  width: 150px;
+  top: 20%;
+  left: 70%;
+  width: 280px;
+  height: 200px;
 }
 .container {
   position: relative;

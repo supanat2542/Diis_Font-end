@@ -2,25 +2,28 @@
   <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
     <q-card-section class="text-primary">
       <div class="row items-center no-wrap">
-        <div class="col" >
+        <div class="col"  >
           <div class="text-center">
-            <q-avatar square size="80px">
+            <q-avatar square size="120px">
               <q-icon name="fas fa-user-tag" color="orange-8" />
             </q-avatar>
           </div>
         </div>
         <div class="col">
           <div class="text-h6">Guest #{{ visitor.id }}</div>
-          <div class="text-subtitle2 q-gutter-xs ">
-            <q-badge color="green-8" class="justify-center" :label="visitor.location" />
-            <q-badge v-if="this.showing==true" color="yellow-8" text-color="black" class="justify-center">
-            <q-icon
-              name="warning"
-              size="14px"
-              class="q-ml-xs"
-            />
-             {{ time_out}}
-          </q-badge>
+          <div class="row text-subtitle2 q-gutter-xs ">
+                <q-badge color="green-8" class="justify-center" :label="visitor.location" />
+              <div class="col">
+                  <q-badge v-if="this.showing==true" color="yellow-8" text-color="black" class="justify-center">
+                  <q-icon
+                    name="warning"
+                    size="14px"
+                    class="q-ml-xs"
+                  />
+                  {{ time_out}}
+                  </q-badge>
+              </div>
+         
           </div>
         </div>
 
@@ -62,13 +65,13 @@
         </q-item>
         <q-item v-ripple>
           <q-item-section>
-            <q-item-label overline>Organization</q-item-label>
+            <q-item-label overline>Category</q-item-label>
             <q-item-label>{{ visitor.category }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-ripple>
           <q-item-section>
-            <q-item-label overline>Contact person</q-item-label>
+            <q-item-label overline>Person to contact</q-item-label>
             <q-item-label>{{ visitor.contract }}</q-item-label>
           </q-item-section>
         </q-item>
@@ -83,9 +86,9 @@
         <q-card-section class="q-pt-none" style="width: 350px; margin: 15px">
           Name : {{ visitor.fname + " " + visitor.lname }} <br />
           Tel : {{ visitor.tel }}<br />
-          ID civilizecation : {{ visitor.id_civiliz }} <br />
-          Type : {{ visitor.category }}<br />
-          Contact Person : {{ visitor.contract }}<br />
+          ID card number : {{ visitor.id_civiliz }} <br />
+          Category : {{ visitor.category }}<br />
+          Person to contact : {{ visitor.contract }}<br />
         </q-card-section>
         <q-card-section class="q-pt-none" style="width: 350px; margin: 15px;font-size:18px">
           Time Start : {{ visitor.time_start }} <br />
