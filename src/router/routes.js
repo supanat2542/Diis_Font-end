@@ -42,10 +42,17 @@ const routes = [
     ]
   },
   {
-    path: '/test',
+    path: '/editdata/:id',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/test.vue') }
+      { path: '', component: () => import('pages/EditData.vue') }
+    ]
+  },
+  {
+    path: '/editItem/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EditItem.vue') }
     ]
   },
   {
@@ -63,12 +70,13 @@ const routes = [
     ]
   },
   {
-    path: '/objects/:id',
+    path: '/object/:id',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: (id) => import('pages/objects.vue') }
+      { path: '', component: (id) => import('pages/Object.vue') }
     ]
   },
+
   // Always leave this as last one,
   // but you can also remove it
   {

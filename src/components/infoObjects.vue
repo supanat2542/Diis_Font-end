@@ -9,6 +9,13 @@
        <q-card-section>
          <div class="text-subtitle3">Person to contract : Sorawut</div>
         <div class="text-subtitle3">Detail : Printer colors</div>
+        <div class="text-h6 text-blue-8">Type : {{ data.tool_name }}</div>
+        <div class="text-subtitle2">Machine code : {{ data.parcel_number }}</div>
+        <div class="text-subtitle2">Starting position : {{ data.Owner }}</div>
+      </q-card-section>
+       <q-card-section>
+         <div class="text-subtitle3">Person to contract : {{ data.tool_person }}</div>
+        <div class="text-subtitle3">Detail : {{ data.detail }}</div>
       </q-card-section>
       
       </q-card>
@@ -16,7 +23,11 @@
 
 <script>
 export default {
+<<<<<<< HEAD
     props: ['fname','lname','tel','category','id_civiliz','contract','timeout'],
+=======
+    props: ['data'],
+>>>>>>> 92e523a00159f2d2c3bb54359b54a2c599ed0589
 }
 </script>
 

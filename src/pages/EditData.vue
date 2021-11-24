@@ -1,16 +1,10 @@
 <template>
   <q-page class="q-pa-sm">
-    <!-------------------------- From Register ---------------------------------------- -->
-    <section-header
-      title="Register"
-      subTitle="การลงทะเบียน Tag"
-    ></section-header>
+    <section-header title="Edit person tag" subTitle="แก้ไขข้อมูล Tag"></section-header>
     <div class="row q-gutter-col-md justify-center">
-      <div class="col-9">
-        <q-card
-          class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm"
-        >
-          <q-card-section class="text-primary">
+      <div  class="col-9" >
+        <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm ">
+          <q-card-section class="text-primary" >
             <div class="row items-center no-wrap">
               <div class="col-3">
                 <div class="text-center">
@@ -22,26 +16,21 @@
               <div class="col-7">
                 <div class="text-h3">Tag {{ id }}</div>
                 <div class="text-subtitle2">
-                  <q-badge color="red-8" label="Disconnected" />
+                  <q-badge color="green-8" label="Connected" />
                 </div>
               </div>
             </div>
-          </q-card-section>
+          </q-card-section >
           <q-card-section style="margin: 30px">
-            <!-- -------------- form ----------------------------- -->
-            <form
-              @submit.prevent.stop="onSubmit"
-              @reset.prevent.stop="onReset"
-              method="post"
-            >
-              <div class="row">
+            <form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" method="post">
+              <div class="row" >
                 <div class="col-2">Name</div>
                 <div class="col-4">
-                  <q-input
+                  <q-input 
                     type="text"
                     name="first name"
                     v-model="posts.first_name"
-                    label="Fist Name"
+                    label="First Name"
                     lazy-rules
                     maxlength="15"
                     :rules="[
@@ -53,6 +42,7 @@
                 </div>
                 <div class="col-4">
                   <q-input
+                    type="text"
                     name="last name"
                     v-model="posts.last_name"
                     label="Last Name"
@@ -72,7 +62,7 @@
                   <q-input
                     type="text"
                     v-model="posts.tel"
-                    label="Number tel"
+                    label="Phone number"
                     mask="### - #######"
                     lazy-rules
                     :rules="[
@@ -86,7 +76,7 @@
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">ID card number</div>
+                <div class="col-2">id card number</div>
                 <div class="col-8">
                   <q-input
                     type="text"
@@ -106,17 +96,17 @@
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">Person to contact</div>
+                <div class="col-2">Person to Contact</div>
                 <div class="col-8">
                   <q-input
                     v-model="posts.Person"
-                    label="Person to Contract"
+                    label="Person to Contact"
                     lazy-rules
                     maxlength="20"
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter your person contact',
+                        'Please enter your person to contact',
                     ]"
                   />
                 </div>
@@ -126,7 +116,7 @@
                 <div class="col-8">
                   <q-input
                     v-model="posts.category"
-                    label="Category to contract"
+                    label="Category to contact"
                     lazy-rules
                     maxlength="20"
                     :rules="[
@@ -138,7 +128,6 @@
               </div>
               <div class="row justify-end" id_civiliz="topper">
                 <div class="col-3">
-                  <!-------------------------- Button Add Data ---------------------------------------- -->
                   <q-btn
                     icon="check"
                     color="primary-gradient"
@@ -160,55 +149,72 @@
         </q-card>
       </div>
     </div>
+    
   </q-page>
 </template>
 
 <script>
 import SectionHeader from "../components/SectionHeader.vue";
-import DeviceCard from "../components/DeviceCard.vue";
-import AddCard from "../components/AddCard.vue";
+// import DeviceCard from "../components/DeviceCard.vue";
 import { axios } from "boot/axios";
-const moment = require("moment");
+import { ref } from 'vue'
 export default {
-  name: "PageIndex",
   components: {
     SectionHeader,
-    DeviceCard,
-    AddCard,
+    // DeviceCard,
   },
   data() {
     return {
       posts: {
-        first_name: "",
-        last_name: "",
-        tel: "",
-        category: "",
-        id_civiliz: "",
+        first_name :[],
+        last_name:[],
+        tel:[],
+        category: [],
+        id_civiliz: [],
         Location: null,
-        Person: "",
+        Person: [],
         taguse_address: "",
         visitor_id: "",
       },
       id: this.$route.params.id,
       list: undefined,
     };
+    
   },
   async mounted() {
     //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 
-
     let resp2 = await axios.get("https://diis.herokuapp.com/api/tags");
     this.list2 = resp2.data.result.rows;
     console.warn(this.list2);
-
-    for (var i = 0; i < this.list2.length; i++) {
-      if (this.list2[i].tag_id == this.id) {
-        this.taguse_address = this.list2[i].tag_address;
-        console.warn("id address : " + this.taguse_address);
-        break;
-      }
-    }
-    console.warn("tag id : "+this.taguse_address);
+    console.warn(this.list2[this.id-1].tag_address)
+    let respx = await axios.get("https://diis.herokuapp.com/api/editdata",{
+      params: {
+            tag_address: this.list2[this.id-1].tag_address,
+          },
+    });
+    this.listx = respx.data.result.rows;
+    console.warn(this.listx);
+    console.warn(this.listx[0].first_name);
+    this.posts.first_name=this.listx[0].first_name;
+    this.posts.last_name=this.listx[0].last_name;
+    this.posts.tel=this.listx[0].tel;
+    this.posts.id_civiliz=this.listx[0].id_civiliz;
+    this.posts.Person=this.listx[0].contract;
+    this.posts.category=this.listx[0].category;
+    let resp = await axios.get("https://diis.herokuapp.com/api/visitors");
+    this.count = resp.data.result.rows.length;
+    this.list = resp.data.result.rows;
+    console.warn(this.list);
+    console.warn("id last "+this.list[this.count - 1].visitor_id + 1);
+    this.posts.visitor_id = this.listx[0].visitor_id;
+    console.warn("this.visitor"+this.posts.visitor_id);
+    let resp4 = await axios.get("https://diis.herokuapp.com/api/scanlog");
+    this.list4 = resp4.data.result.rows;
+    console.warn("list4 scanerlog");
+    console.warn(this.list4);
+      
+    
   },
   methods: {
     //<------------------------- Fuction Add Data ------------------------------------------ -->
@@ -227,27 +233,16 @@ export default {
         console.warn("connect");
         console.warn(this.posts);
         const url = "http://localhost:3030/api/" 
-        let result = await axios.post("https://diis.herokuapp.com/api/visitors", [
-          {
-            tag_address: this.taguse_address,
+        let result = await axios.put("https://diis.herokuapp.com/api/updateData/"+this.posts.visitor_id, {
             first_name: this.posts.first_name,
             last_name: this.posts.last_name,
             tel: this.posts.tel,
             category: this.posts.category,
             id_civiliz: this.posts.id_civiliz,
-            contract: this.posts.Person,
-            time: moment().format("YYYY-MM-DDTHH:mm:ss.SSSSZ"),
-          },
-        ]);
+            contract: this.posts.Person
+        });
+        console.warn("Test")
         console.warn(result);
-
-        let result2 = await axios.post("https://diis.herokuapp.com/api/scanlog", [
-          {
-            device_address: this.taguse_address,
-            scanner_id: "8e61a75d-12b7-4bda-8bc1-ed5983d33408-003",
-          },
-        ]);
-        console.warn(result2);
         this.$router.push("/index");
       } else {
         console.warn("Not connect");

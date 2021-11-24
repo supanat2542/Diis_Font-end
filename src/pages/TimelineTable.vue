@@ -4,191 +4,234 @@
       title="Report"
       subTitle="แสดงข้อมูลการใช้งานของ Users"
     ></section-header>
-    <q-tabs v-model="tab" class="q-mb-lg">
-      <q-tab class="text-purple" name="Dairy" label="Dairy" />
-      <q-tab class="text-orange" name="Monthly" label="Monthly" />
-      <q-tab class="text-teal" name="Select Date" label="Select Date" />
-    </q-tabs>
-
-    <q-tab-panels
-      v-model="tab"
-      animated
-      transition-prev="fade"
-      transition-next="fade"
-      style="background-color: #eceff1"
-    >
-      <!-- =================================================== Print Day ==================================================================== -->
-      <q-tab-panel name="Dairy">
-        <div class="q-pa-md">
-          <q-table
-            :title="`Timeline Dairy - ` + this.date"
-            :data="list_day"
-            :columns="columns"
-            row-key="name"
-            class="rounded-borders-10 shadow-5"
+     <q-option-group class="text-right" style="margin-right:15px"
+        v-model="panel"
+        inline
+        :options="[
+          { label: 'Persons', value: 'persons' },
+          { label: 'Objects', value: 'objects' }
+        ]"
+      />
+    
+<q-tab-panels v-model="panel" animated  transition-prev="fade" transition-next="fade" style="background-color: #eceff1">
+        <q-tab-panel name="persons">
+          <q-tabs v-model="tab" class="q-mb-lg">
+            <q-tab class="text-purple" name="Dairy" label="Dairy" />
+            <q-tab class="text-orange" name="Monthly" label="Monthly" />
+            <q-tab class="text-teal" name="Select Date" label="Select Date" />
+          </q-tabs>
+          <q-tab-panels
+            v-model="tab"
+            animated
+            transition-prev="fade"
+            transition-next="fade"
+            style="background-color: #eceff1"
           >
-            <template v-slot:header="props">
-              <q-tr :props="props">
-                <q-th auto-width />
-                <q-th v-for="col in props.cols" :key="col.name" :props="props">
-                  {{ col.label }}
-                </q-th>
-              </q-tr>
-            </template>
+            <!-- =================================================== Print Day ==================================================================== -->
+            <q-tab-panel name="Dairy">
+              <div class="q-pa-md">
+                <q-table
+                  :title="`Timeline Dairy - ` + this.date"
+                  :data="list_day"
+                  :columns="columns"
+                  row-key="name"
+                  class="rounded-borders-10 shadow-5"
+                >
+                  <template v-slot:header="props">
+                    <q-tr :props="props">
+                      <q-th auto-width />
+                      <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.label }}
+                      </q-th>
+                    </q-tr>
+                  </template>
 
-            <template v-slot:body="props">
-              <q-tr :props="props">
-                <q-td auto-width>
-                  <q-btn
-                    size="md"
-                    color="primary-gradient"
-                    round
-                    :to="'/timeline/' + props.row.id"
-                    :icon="props.expand ? '' : 'person_pin_circle'"
-                  />
-                </q-td>
-                <q-td v-for="col in props.cols" :key="col.name" :props="props">
-                  {{ col.value }}
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
-        </div>
-      </q-tab-panel>
-      <!-- =========================================== Print Mounthly =========================================================== -->
-      <q-tab-panel name="Monthly">
-        <div class="q-pa-md">
-          <q-table
-            :title="`Timeline Monthly - ` + this.month"
-            :data="list_month"
-            :columns="columns"
-            row-key="name"
-            class="rounded-borders-10 shadow-5"
-          >
-            <template v-slot:header="props">
-              <q-tr :props="props">
-                <q-th auto-width />
-                <q-th v-for="col in props.cols" :key="col.name" :props="props">
-                  {{ col.label }}
-                </q-th>
-              </q-tr>
-            </template>
-
-            <template v-slot:body="props">
-              <q-tr :props="props">
-                <q-td auto-width>
-                  <q-btn
-                    size="md"
-                    color="primary-gradient"
-                    round
-                    :to="'/timeline/' + props.row.id"
-                    :icon="props.expand ? '' : 'person_pin_circle'"
-                  />
-                </q-td>
-                <q-td v-for="col in props.cols" :key="col.name" :props="props">
-                  {{ col.value }}
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
-        </div>
-      </q-tab-panel>
-      <!-- ================================================ Print Select Date =============================================================== -->
-      <q-tab-panel name="Select Date">
-        <div class="col">
-          <div class="row-4">Select Date</div>
-          <div class="row">
-            <div class="q-pa-md col self-center" style="max-width: 300px">
-            <q-input filled v-model="date" mask="date" :rules="['date']" label="Select Date">
-              <template v-slot:append>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    ref="qDateProxy"
-                    transition-show="scale"
-                    transition-hide="scale"
-                  >
-                    <q-date v-model="date">
-                      <div class="row items-center justify-end">
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td auto-width>
                         <q-btn
-                          v-close-popup
-                          label="Select"
-                          color="primary" 
-                          flat
+                          size="md"
+                          color="primary-gradient"
+                          round
+                          :to="'/timeline/' + props.row.id"
+                          :icon="props.expand ? '' : 'person_pin_circle'"
                         />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
-          <div class="q-pa-md col" style="max-width: 300px">
-          <q-select filled v-model="select_room" :options="options" label="Select Room" />
-          </div>
-          <div class="q-gutter-md  self-center" style="max-width: 300px">
-            <q-btn
-             icon="check"
-             color="primary-gradient"
-             label="Submit" type="submit"
-             @click="select()"
-             clickable
-            />
-            <q-btn
-             color="primary-gradient"
-             label="Show all data" type="submit"
-             @click="showdata()"
-             clickable
-            />
-          </div>
-          
-          </div>
-        </div>
+                      </q-td>
+                      <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.value }}
+                      </q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
+              </div>
+            </q-tab-panel>
+            <!-- =========================================== Print Mounthly =========================================================== -->
+            <q-tab-panel name="Monthly">
+              <div class="q-pa-md">
+                <q-table
+                  :title="`Timeline Monthly - ` + this.month"
+                  :data="list_month"
+                  :columns="columns"
+                  row-key="name"
+                  class="rounded-borders-10 shadow-5"
+                >
+                  <template v-slot:header="props">
+                    <q-tr :props="props">
+                      <q-th auto-width />
+                      <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.label }}
+                      </q-th>
+                    </q-tr>
+                  </template>
 
-        <div class="q-pa-md">
-          <q-table
-            title="Timeline"
-            :data="list_select"
-            :columns="columns"
-            row-key="name"
-            class="rounded-borders-10 shadow-5"
-          >
-            <template v-slot:header="props">
-              <q-tr :props="props">
-                <q-th auto-width />
-                <q-th v-for="col in props.cols" :key="col.name" :props="props">
-                  {{ col.label }}
-                </q-th>
-              </q-tr>
-            </template>
-            <template v-slot:body="props">
-              <q-tr :props="props">
-                <q-td auto-width>
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td auto-width>
+                        <q-btn
+                          size="md"
+                          color="primary-gradient"
+                          round
+                          :to="'/timeline/' + props.row.id"
+                          :icon="props.expand ? '' : 'person_pin_circle'"
+                        />
+                      </q-td>
+                      <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.value }}
+                      </q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
+              </div>
+            </q-tab-panel>
+            <!-- ================================================ Print Select Date =============================================================== -->
+            <q-tab-panel name="Select Date">
+              <div class="col">
+                <div class="row-4">Select Date</div>
+                <div class="row">
+                  <div class="q-pa-md col self-center" style="max-width: 300px">
+                  <q-input filled v-model="date" mask="date" :rules="['date']" label="Select Date">
+                    <template v-slot:append>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy
+                          ref="qDateProxy"
+                          transition-show="scale"
+                          transition-hide="scale"
+                        >
+                          <q-date v-model="date">
+                            <div class="row items-center justify-end">
+                              <q-btn
+                                v-close-popup
+                                label="Select"
+                                color="primary" 
+                                flat
+                              />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                </div>
+                <div class="q-pa-md col" style="max-width: 300px">
+                <q-select filled v-model="select_room" :options="options" label="Select Room" />
+                </div>
+                <div class="q-gutter-md  self-center" style="max-width: 300px">
                   <q-btn
-                    size="md"
-                    color="primary-gradient"
-                    round
-                    :id="0"
-                    :to="'/timeline/' + props.row.id"
-                    :icon="props.expand ? '' : 'person_pin_circle'"
+                  icon="check"
+                  color="primary-gradient"
+                  label="Submit" type="submit"
+                  @click="select()"
+                  clickable
                   />
-                </q-td>
-                <q-td v-for="col in props.cols" :key="col.name" :props="props">
-                  {{ col.value }}
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
-        </div>
-      </q-tab-panel>
-    </q-tab-panels>
-    <q-btn
-    size="md"
-    color="purple"
-    round
-    :id="0"
-    :to="'/objects/1'"
-    :icon="'inventory'"
-    />
+                  <q-btn
+                  color="primary-gradient"
+                  label="Show all data" type="submit"
+                  @click="showdata()"
+                  clickable
+                  />
+                </div>
+                
+                </div>
+              </div>
+
+              <div class="q-pa-md">
+                <q-table
+                  title="Timeline"
+                  :data="list_select"
+                  :columns="columns"
+                  row-key="name"
+                  class="rounded-borders-10 shadow-5"
+                >
+                  <template v-slot:header="props">
+                    <q-tr :props="props">
+                      <q-th auto-width />
+                      <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.label }}
+                      </q-th>
+                    </q-tr>
+                  </template>
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td auto-width>
+                        <q-btn
+                          size="md"
+                          color="primary-gradient"
+                          round
+                          :id="0"
+                          :to="'/timeline/' + props.row.id"
+                          :icon="props.expand ? '' : 'person_pin_circle'"
+                        />
+                      </q-td>
+                      <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.value }}
+                      </q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
+              </div>
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-tab-panel>
+<!-- ================================================ Print Object =============================================================== -->
+        <q-tab-panel name="objects">
+              <div class="q-pa-md">
+                <q-table
+                  :title="`Timeline Objects `"
+                  :columns="columnsObject"
+                  :data="list_object"
+                  row-key="type"
+                  class="rounded-borders-10 shadow-5"
+                >
+                  <template v-slot:header="props">
+                    <q-tr :props="props">
+                      <q-th auto-width />
+                      <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.name}}
+                      </q-th>
+                    </q-tr>
+                  </template>
+
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td auto-width>
+                        <q-btn
+                          size="md"
+                          color="purple"
+                          round
+                          :id="0"
+                          :to="'/object/' + props.row.item_id"
+                          :icon="props.expand ? '' : 'inventory'"
+                        />
+                      </q-td>
+                      <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                        {{ col.value }}
+                      </q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
+              </div>
+        </q-tab-panel>
+      </q-tab-panels>
   </q-page>
 </template>
 
@@ -204,13 +247,15 @@ export default {
   },
   data() {
     return {
+      panel:'persons',
       tab: "Dairy",
       select_room: null,
-      date: null,
+      date: moment().format("[Date] DD"),
       month: moment().format("YYYY/MM"),
       list_month: [],
       list_day: [],
       list_select: [],
+      list_object: [],
       dashbord: [],
       options: [],
       columns: [
@@ -259,6 +304,46 @@ export default {
           sortable: true,
         },
       ],
+      columnsObject: [
+        {
+          name: "Tool Name",
+          required: true,
+          label: "tool_name",
+          align: "center",
+          field: (row) => row.tool_name,
+          format: (val) => `${val}`,
+          sortable: true,
+        },
+        {
+          name: "Parcel number",
+          align: "center",
+          label: "parcel_number",
+          field: "parcel_number",
+          sortable: true,
+        },
+        {
+          name: "Start position",
+          align: "center",
+          label: "Owner",
+          field: "Owner",
+          sortable: true,
+        },
+        {
+          name: "Person to contract",
+          align: "center",
+          label: "tool_person",
+          field: "tool_person",
+          sortable: true,
+        },
+        {
+          name: "location",
+          align: "center",
+          label: "Location",
+          field: "location",
+          sortable: true,
+        },
+      ],
+      
     };
       
   },
@@ -269,20 +354,25 @@ export default {
     // }, 60000);
     //<------------------------- Connect Database ----------------------------------->
     const url = "http://localhost:3030/api/" 
-    let resp1 = await axios.get(url+"visitors");
+    let resp1 = await axios.get("https://diis.herokuapp.com/api/visitors");
     this.list1 = resp1.data.result.rows;
     console.warn("Visitor ");
-    console.warn(resp1.data.result.rows);
-
-    let resp2 = await axios.get(url+"scanlog");
+    console.warn(resp1.data.result.rows); 
+    let resp2 = await axios.get("https://diis.herokuapp.com/api/scanlog");
     this.list2 = resp2.data.result.rows;
     console.warn("list2 scanerlog kk");
     console.warn(this.list2);
 
-    let resp3 = await axios.get(url+"locations");
+    let resp3 = await axios.get("https://diis.herokuapp.com/api/locations");
     this.list3 = resp3.data.result.rows;
     console.warn("list3 room");
     console.warn(this.list3);
+
+////item/////
+    let resp4 = await axios.get("https://diis.herokuapp.com/api/items");
+    this.list4 = resp4.data.result.rows;
+    console.warn("list4 items");
+    console.warn(this.list4);
 
     for(var k = 0; k < this.list3.length; k++){
       this.options.push(this.list3[k].room)
@@ -330,12 +420,23 @@ export default {
     console.warn("Time line all")
     console.warn(this.dashbord)
 
-      for (var i = 0; i < this.dashbord.length; i++) {
-        
-      }
-      // console.warn("Time line month //")
-      // console.warn(this.list_month);
-
+     for(var i = 0; i < this.list4.length; i++){
+       const newItem = {
+            Owner: this.list4[i].Owner,
+            item_id: this.list4[i].item_id,
+            parcel_number: this.list4[i].parcel_number,
+            tag_address: this.list4[i].tag_address,
+            tag_id: this.list4[i].tag_id,
+            time_start: this.list4[i].time_start,
+            time_stop: this.list4[i].time_stop,
+            tool_name: this.list4[i].tool_name,
+            tool_person: this.list4[i].tool_person,
+            location: "Hall",
+          };
+          this.list_object.push(newItem);
+     }
+    console.warn("Object ")
+    console.warn(this.list_object)
       for (var i = 0; i < this.dashbord.length; i++) {
         //<------------------------- List Day ----------------------------------->
         if (
@@ -478,8 +579,6 @@ export default {
             }
           }
         }
-
-       
         
         console.warn(this.list_select);
       },
