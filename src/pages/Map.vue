@@ -118,38 +118,31 @@ export default {
 
     //<-------------------------Create Dashbord ----------------------------------->
     for (var i = 0; i < this.list.length; i++) {
-      let resp3 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
-      params: {
-        tag_address: this.list[i].tag_address,
-        time_start: moment(this.list[i].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-        time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-      }});
-      this.list3 = resp3.data.result.rows;
-      console.warn(this.list3);
+      // let resp3 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+      // params: {
+      //   tag_address: this.list[i].tag_address,
+      //   time_start: moment(this.list[i].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+      //   time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+      // }});
+      // this.list3 = resp3.data.result.rows;
+      // console.warn(this.list3);
       const newItem = {
              id: this.list[i].tag_id,
+             tag_address: this.list[i].tag_address,
              fname: this.list[i].first_name,
              lname: this.list[i].last_name,
              tel: this.list[i].tel,
              contract: this.list[i].contract,
              category: this.list[i].category,
-             location: this.list3[0].room,
              visitor_id: this.list[i].visitor_id,
-             timestamp:moment(this.list3[0].scan_timestamp).format(),
+             time_start: this.list[i].time_start,
+             location: "this.list3[0].room",
+             floors:'"floors "+this.list3[0].floor',
              type:"visitor",
-             floors:"floors "+this.list3[0].floor,
       };
       this.dashbord.push(newItem);
     }
      for (var j = 0; j < this.list2.length; j++) {
-      let resp3 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
-      params: {
-        tag_address: this.list2[j].tag_address,
-        time_start: moment(this.list2[j].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-        time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-      }});
-      this.list3 = resp3.data.result.rows;
-      console.warn(this.list3);
       const newItem = {
               id: this.list2[j].tag_id,
               tag_address: this.list2[j].tag_address,
@@ -158,15 +151,33 @@ export default {
               parcel_number:this.list2[j].parcel_number,
               tool_person:this.list2[j].tool_person,
               detail:this.list2[j].detail,
-              location: this.list3[0].room,
-              time_start: moment(this.list2[j].time_start).format(" hh:mm A"),
+              location: "this.list3[0].room",
+              time_start: moment(this.list2[j].time_start).format(),
+              floors:'"floors "+this.list2[0].floor',
               type: 'item'
       };
       this.dashbord.push(newItem);
     }
     console.warn("this dashbord")
     console.warn(this.dashbord);
+    this.time()
   },
+  methods: {
+      async time(){
+        for(var a = 0; a < this.dashbord.length; a++){
+          let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+            params: {
+              tag_address: this.dashbord[a].tag_address,
+              time_start: moment(this.dashbord[a].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+              time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+            }});
+      this.list = resp.data.result.rows;
+      console.warn(this.list);
+      this.dashbord[a].location=this.list[0].room;
+      this.dashbord[a].floors=this.list[0].floor;
+        }
+    }
+  }
 };
 </script>
 

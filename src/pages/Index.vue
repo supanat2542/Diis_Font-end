@@ -87,14 +87,6 @@ export default {
       var count = 1 ;
       for (var j = 0; j < this.list.length; j++){
         if(this.list5[i].tag_address == this.list[j].tag_address){
-            let resp4 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
-            params: {
-                tag_address: this.list[j].tag_address,
-                time_start: moment(this.list[j].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-                time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-            }});
-            this.list4 = resp4.data.result.rows;
-            console.warn(this.list4);
             const newItem = {
               id: this.list[j].tag_id,
               visitor_id: this.list[j].visitor_id,
@@ -103,10 +95,9 @@ export default {
               tel: this.list[j].tel,
               contract: this.list[j].contract,
               category: this.list[j].category,
-              location: this.list4[0].room,
-              timestamp:moment(this.list4[0].scan_timestamp).tz('Asia/Bangkok').format(),
+              location: '-',
               tag_address: this.list[j].tag_address,
-              time_start: moment(this.list[j].time_start).tz('Asia/Bangkok').format(" hh:mm A"),
+              time_start: moment(this.list[j].time_start).tz('Asia/Bangkok').format(),
               id_civiliz: this.list[j].id_civiliz,
               type: 'visitor'
             };
@@ -117,13 +108,6 @@ export default {
       }
       for (var u = 0; u < this.list2.length; u++){
         if(this.list5[i].tag_address == this.list2[u].tag_address){
-          let resp4 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
-            params: {
-              tag_address: this.list5[i].tag_address,
-              time_start: moment(this.list2[u].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-              time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-            }});
-            this.list4 = resp4.data.result.rows;
             const newItem = {
               id: this.list5[i].tag_id,
               item_id: this.list2[u].item_id,
@@ -133,8 +117,8 @@ export default {
               parcel_number:this.list2[u].parcel_number,
               tool_person:this.list2[u].tool_person,
               detail:this.list2[u].detail,
-              location: this.list4[0].room,
-              time_start: moment(this.list2[u].time_start).format(" hh:mm A"),
+              location: '-',
+              time_start: moment(this.list2[u].time_start).format(),
               type: 'item'
             };
             this.dashbord.push(newItem);
@@ -154,6 +138,7 @@ export default {
     }
     console.warn("listh dahs");
     console.warn(this.dashbord);
+    
   },
    methods: {
     async onSubmits() {

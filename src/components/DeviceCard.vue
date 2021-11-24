@@ -12,7 +12,7 @@
         <div class="col">
           <div class="text-h6">Guest #{{ visitor.id }}</div>
           <div class="row text-subtitle2 q-gutter-xs ">
-                <q-badge color="green-8" class="justify-center" :label="visitor.location" />
+                <q-badge color="green-8" class="justify-center" :label="this.room" />
               <div class="col">
                   <q-badge v-if="this.showing==true" color="yellow-8" text-color="black" class="justify-center">
                   <q-icon
@@ -135,16 +135,19 @@ export default {
       alert: false,
       confirm: false,
       showing: false,
-      time_out:""
+      time_out:"",
+      room:"-",
+      list:[],
     };
   },
   mounted() {
-    console.warn(this.visitor)
+    this.time()
     var now = moment().format()
     var last = this.visitor.timestamp
     var now_time = moment(now)
     var last_time = moment(last)
     var time_out =now_time.diff(last_time, 'hours')
+    console.warn(time_out)
     if(time_out==0){
       this.time_out=""
       this.showing=false
@@ -176,6 +179,17 @@ export default {
       console.warn(result2);
       location.reload();
     },
+    async time(){
+      let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+            params: {
+              tag_address: this.visitor.tag_address,
+              time_start: moment(this.visitor.time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+              time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+            }});
+      this.list = resp.data.result.rows;
+      console.warn(this.list);
+      this.room=this.list[0].room;
+    }
   },
 };
 </script>

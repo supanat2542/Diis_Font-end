@@ -12,7 +12,7 @@
         <div class="col">
           <div class="text-h6">Item #{{ item.id }}</div>
           <div class="text-subtitle2 q-gutter-xs ">
-            <q-badge color="red-8" class="justify-center" :label="item.location" />
+            <q-badge color="red-8" class="justify-center" :label="this.room" />
           </div>
         </div>
 
@@ -115,7 +115,7 @@
 
 <script>
 import { axios } from "boot/axios";
-const moment = require("moment");
+const moment = require("moment-timezone");
 export default {
   props: [
     "item"
@@ -125,10 +125,12 @@ export default {
       alert: false,
       confirm: false,
       showing: false,
-      time_out:""
+      time_out:"",
+      room:"-",
     };
   },
   mounted() {
+    this.time('displayTime', 1000);
     // console.warn(this.timestamp+" == "+moment().format())
     var now = moment().format()
     var last = this.timestamp
@@ -170,6 +172,20 @@ export default {
       console.warn(result2);
       location.reload();
     },
+    
+    async time(){
+      let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+            params: {
+              tag_address: this.item.tag_address,
+              time_start: moment(this.item.time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+              time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+            }});
+      this.list = resp.data.result.rows;
+      console.warn("this.list");
+      console.warn(this.list);
+      
+      this.room=this.list[0].room;
+    }
   },
 };
 </script>
