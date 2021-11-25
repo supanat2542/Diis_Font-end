@@ -27,7 +27,6 @@ export default {
     props: ['fname','lname','tel','category','id_civiliz','contract','timeout'],
 =======
     props: ['data'],
->>>>>>> 92e523a00159f2d2c3bb54359b54a2c599ed0589
 }
 </script>
 
