@@ -143,7 +143,7 @@ export default {
    methods: {
     async onSubmits() {
         console.warn("counctionss")
-        let result = await axios.post("https://diis.herokuapp.com/api/eventsarr", [
+        let result = await axios.post("https://diis.herokuapp.com/api/time", [
           {
             scanner_id: '68:4d:6b:75:fe:b5',
             device_address: '2021-02-10 09:00:00',
@@ -152,7 +152,17 @@ export default {
             device_manufacturerdata: '2021-02-10 19:00:00',
             device_serviceuuid: '2021-02-10 19:00:00',
             device_txpower: '2021-02-10 19:00:00',
-            device_rssi: '2021-02-10 19:00:00',
+            device_rssi: 1,
+          },
+          {
+            scanner_id: '68:4d:6b:75:fe:b5',
+            device_address: '2021-02-10 09:00:00',
+            device_name : '2021-02-10 19:00:00',
+            device_appearance: '2021-02-10 19:00:00',
+            device_manufacturerdata: '2021-02-10 19:00:00',
+            device_serviceuuid: '2021-02-10 19:00:00',
+            device_txpower: '2021-02-10 19:00:00',
+            device_rssi: 1,
           },
         ]);
         console.warn(result);

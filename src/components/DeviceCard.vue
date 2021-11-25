@@ -141,7 +141,6 @@ export default {
     };
   },
   mounted() {
-    this.time()
     var now = moment().format()
     var last = this.visitor.timestamp
     var now_time = moment(now)
@@ -163,6 +162,10 @@ export default {
     }
     console.warn("showing  -------- "+this.time_out)
   },
+  created(){
+      this.time()
+      setInterval(() => this.time(),60000);
+  },  
   methods: {
     async resetTag() {
       const url = "http://localhost:3030/api/" 

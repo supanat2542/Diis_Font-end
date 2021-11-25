@@ -49,9 +49,9 @@
       <div class="room-1406 row q-gutter-y-lg">
           <div v-for="item in dashbord" :key="item.id" class="col-4">
               <icon-map
-              v-if="item.location == 1406" 
-                :visitor="item"
+              v-if="item.location == 1406 && item.type == 'visitor'" :visitor="item"
               ></icon-map>
+              <icon-item v-if="item.location == '1406' && item.type == 'item'" :item="item" ></icon-item>
           </div>
       </div>
       <!--------------------------- Location Room 1408 --------------------------------- -->
@@ -59,7 +59,6 @@
         <template v-for="item in dashbord">
           <div v-if="item.location == 1408" :key="item.id" class="col-3">
             <icon-map
-              
               :visitor="item"
             ></icon-map>
           </div>
@@ -91,6 +90,9 @@ export default {
       ]
     };
   },
+  created(){
+      setInterval(() => this.time(),60000);
+  }, 
   async mounted() {
     
     // setTimeout(function () {

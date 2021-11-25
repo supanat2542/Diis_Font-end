@@ -128,9 +128,11 @@ export default {
       time_out:"",
       room:"-",
     };
-  },
+  },created(){
+      this.time()
+      setInterval(() => this.time(),120000);
+  }, 
   mounted() {
-    this.time('displayTime', 1000);
     // console.warn(this.timestamp+" == "+moment().format())
     var now = moment().format()
     var last = this.timestamp
