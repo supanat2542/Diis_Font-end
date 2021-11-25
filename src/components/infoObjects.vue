@@ -23,9 +23,9 @@
 
 <script>
 export default {
-<<<<<<< HEAD
-    props: ['fname','lname','tel','category','id_civiliz','contract','timeout'],
-=======
+// <<<<<<< HEAD
+//     props: ['fname','lname','tel','category','id_civiliz','contract','timeout'],
+// =======
     props: ['data'],
 }
 </script>

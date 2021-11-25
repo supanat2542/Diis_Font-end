@@ -23,12 +23,12 @@
             <q-menu cover auto-close>
               <q-list>
                 <q-item :to="'/register/' +id" clickable class="text-center">
-                  <q-icon name="fas fa-user-tag" color="orange-8"  class="col-1"/><q-item-section >Register Visitor</q-item-section>
+                  <q-icon name="fas fa-user-tag" color="orange-8"  class="col-1"/><q-item-section >Register Person</q-item-section>
                 </q-item>
               </q-list>
               <q-list>
                 <q-item :to="'/install/' +id" clickable class="text-center">
-                  <q-icon name="fas fa-box" color="blue-8" class="col-1"/><q-item-section >Register Tool</q-item-section>
+                  <q-icon name="fas fa-box" color="blue-8" class="col-1"/><q-item-section >Register Object</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
@@ -40,10 +40,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-
-=======
->>>>>>> 92e523a00159f2d2c3bb54359b54a2c599ed0589
 export default {
   props: ["id"],
 };

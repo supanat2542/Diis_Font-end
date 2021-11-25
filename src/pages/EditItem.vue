@@ -80,12 +80,12 @@
                 </div>
               </div>
               <div class="row" >
-                <div class="col-2">Person to contract</div>
+                <div class="col-2">Person to contact</div>
                 <div class="col-8">
                   <q-input
                     type="text"
                     v-model="posts.tool_person"
-                    label="Person Install"
+                    label="Person to contact"
                     lazy-rules
                     maxlength="30"
                     :rules="[
@@ -101,7 +101,7 @@
                 <div class="col-8">
                   <q-input
                     v-model="posts.detail"
-                    label="Detail of item"
+                    label="Detail of object"
                     lazy-rules
                     maxlength="50"
                     :rules="[
