@@ -35,7 +35,7 @@
               method="post"
             >
               <div class="row">
-                <div class="col-2">Tool Name</div>
+                <div class="col-2">Type</div>
                 <div class="col-8">
                   <q-input
                     name="Tool"
@@ -46,13 +46,13 @@
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter your last name',
+                        'Please enter type of object',
                     ]"
                   />
                 </div>
               </div>
               <div class="row">
-                <div class="col-2">Owner room</div>
+                <div class="col-2">Start position</div>
                 <div class="col-8">
                   <q-input
                     name="room"
@@ -63,13 +63,13 @@
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter your last name',
+                        'Please enter start position',
                     ]"
                   />
                 </div>
               </div>
               <div class="row">
-                <div class="col-2">Parcel number</div>
+                <div class="col-2">Machine code</div>
                 <div class="col-8">
                   <q-input
                     type="text"
@@ -80,26 +80,26 @@
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter your 13 Identification Number',
+                        'Please enter machine code',
                       (val) =>
                         val.length >= 20 ||
-                        'Please enter your real Identification Number',
+                        'Please enter real machine code',
                     ]"
                   />
                 </div>
               </div>
               <div class="row" >
-                <div class="col-2">Person Install</div>
+                <div class="col-2">Person to contact</div>
                 <div class="col-8">
                   <q-input
                     v-model="posts.tool_person"
-                    label="Person Install"
+                    label="Person to contact"
                     lazy-rules
                     maxlength="30"
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter your person contract',
+                        'Please enter person to contract',
                     ]"
                   />
                 </div>
@@ -109,12 +109,12 @@
                 <div class="col-8">
                   <q-input
                     v-model="posts.detail"
-                    label="Detail of item"
+                    label="Detail of object"
                     lazy-rules
                     maxlength="50"
                     :rules="[
                       (val) =>
-                        (val && val.length > 0) || 'Please enter your category',
+                        (val && val.length > 0) || 'Please enter detail object',
                     ]"
                   />
                 </div>
