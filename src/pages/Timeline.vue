@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
     <section-header
-      title="Time Line"
+      title="Timeline"
       subTitle="แสดงข้อมูลการใช้งานของ User"
     ></section-header>
     <!-------------------------- Infomation User ------------------------------------>

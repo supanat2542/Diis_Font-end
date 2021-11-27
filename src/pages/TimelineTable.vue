@@ -16,7 +16,7 @@
 <q-tab-panels v-model="panel" animated  transition-prev="fade" transition-next="fade" style="background-color: #eceff1">
         <q-tab-panel name="persons">
           <q-tabs v-model="tab" class="q-mb-lg">
-            <q-tab class="text-purple" name="Dairy" label="Dairy" />
+            <q-tab class="text-purple" name="Dairy" label="Daily" />
             <q-tab class="text-orange" name="Monthly" label="Monthly" />
             <q-tab class="text-teal" name="Select Date" label="Select Date" />
           </q-tabs>

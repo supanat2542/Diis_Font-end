@@ -60,7 +60,7 @@
         </q-item>
         <q-item v-ripple>
           <q-item-section>
-            <q-item-label overline>Contact Person</q-item-label>
+            <q-item-label overline>Person to contact</q-item-label>
             <q-item-label>{{ item.contract }}</q-item-label>
           </q-item-section>
         </q-item>

@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
     <section-header
-      title="Objects Time Line"
+      title="Objects Timeline"
       subTitle="แสดงข้อมูลของสิ่งของ"
     ></section-header>
     <!-------------------------- Infomation User ------------------------------------>

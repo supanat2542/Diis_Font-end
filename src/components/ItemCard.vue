@@ -54,7 +54,7 @@
         </q-item>
         <q-item v-ripple>
           <q-item-section>
-            <q-item-label overline>Machine code</q-item-label>
+            <q-item-label overline>Object code</q-item-label>
             <q-item-label>{{ item.parcel_number }}</q-item-label>
           </q-item-section>
         </q-item>
@@ -76,7 +76,7 @@
         <q-card-section class="q-pt-none" style="width: 350px; margin: 15px">
           Tool : {{ item.tool_name }} <br />
           Starting position : {{ item.Owner }} <br />
-          Machine code : {{ item.parcel_number }} <br />
+          Object code : {{ item.parcel_number }} <br />
           Person to contact : {{ item.tool_person }} <br />
           Detail : {{ item.detail }} <br />
         </q-card-section>

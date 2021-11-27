@@ -60,7 +60,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-2">Machine code</div>
+                <div class="col-2">Object code</div>
                 <div class="col-8">
                   <q-input
                     type="text"
@@ -71,10 +71,10 @@
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter machine code',
+                        'Please enter object code',
                       (val) =>
                         val.length >= 20 ||
-                        'Please enter real machine code',
+                        'Please enter real object code',
                     ]"
                   />
                 </div>
