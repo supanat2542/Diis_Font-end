@@ -19,7 +19,7 @@
                     <div
                       class="text-h4 q-pb-md text-blue-8 text-center text-weight-bolder" style="margin-top:100px"
                     >
-                      Loginssssssssss
+                      Login
                     </div>
                     <q-form
                       @submit="onSubmit"
