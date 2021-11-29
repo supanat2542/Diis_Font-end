@@ -3,7 +3,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/LoginLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/index.vue') }
+      { path: '', component: () => import('./src/pages/index.vue') }
     ]
   },
   {
@@ -24,7 +24,7 @@ const routes = [
     path: '/report',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/timelineTable.vue') }
+      { path: '', component: () => import('./srcsrc/pages/timelineTable.vue') }
     ]
   },
   {
@@ -59,7 +59,7 @@ const routes = [
     path: '/timeline/:id',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: (id) => import('src/pages/timeline.vue') }
+      { path: '', component: (id) => import('./srcsrc/pages/timeline.vue') }
     ]
   },
   {
