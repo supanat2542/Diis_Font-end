@@ -4,6 +4,7 @@
       <div class="row items-center no-wrap">
         <div class="col" style="width:251px;">
         <div class="text-center">
+          
         <q-avatar square size="176px">
           <q-icon name="fas fa-wifi" color="red-8" style="font-size: 5rem;"/>
         </q-avatar>
