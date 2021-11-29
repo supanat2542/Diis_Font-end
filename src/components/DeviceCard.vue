@@ -2,9 +2,9 @@
   <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm ">
     <q-card-section class="text-primary" :style='{background:colors}' >
       <div class="row items-center no-wrap">
-        <div class="col"  >
+        <div class="col" style="width:115px">
           <div class="text-center">
-            <q-avatar square size="120px">
+            <q-avatar square size="80px">
               <q-icon name="fas fa-user-tag" color="orange-8" />
             </q-avatar>
           </div>
