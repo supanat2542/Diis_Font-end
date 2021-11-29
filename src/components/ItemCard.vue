@@ -1,6 +1,6 @@
 <template>
   <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
-    <q-card-section class="text-primary">
+    <q-card-section class="text-primary" :style='{background:colors}'>
       <div class="row items-center no-wrap">
         <div class="col" style="width:119px">
           <div class="text-center">
@@ -13,6 +13,16 @@
           <div class="text-h6">Item #{{ item.id }}</div>
           <div class="text-subtitle2 q-gutter-xs ">
             <q-badge color="red-8" class="justify-center" :label="this.room" />
+            <div class="col">
+                  <q-badge v-if="this.showing==true" color="yellow-8" text-color="black" class="justify-center">
+                  <q-icon
+                    name="warning"
+                    size="14px"
+                    class="q-ml-xs"
+                  />
+                  {{ this.time_out}}
+                  </q-badge>
+              </div>
           </div>
         </div>
 
@@ -54,7 +64,7 @@
         </q-item>
         <q-item v-ripple>
           <q-item-section>
-            <q-item-label overline>Machine code</q-item-label>
+            <q-item-label overline>Object code</q-item-label>
             <q-item-label>{{ item.parcel_number }}</q-item-label>
           </q-item-section>
         </q-item>
@@ -76,7 +86,7 @@
         <q-card-section class="q-pt-none" style="width: 350px; margin: 15px">
           Tool : {{ item.tool_name }} <br />
           Starting position : {{ item.Owner }} <br />
-          Machine code : {{ item.parcel_number }} <br />
+          Object code : {{ item.parcel_number }} <br />
           Person to contact : {{ item.tool_person }} <br />
           Detail : {{ item.detail }} <br />
         </q-card-section>
@@ -126,6 +136,7 @@ export default {
       confirm: false,
       showing: false,
       time_out:"",
+      colors:'',
       room:"-",
     };
   },created(){
@@ -133,27 +144,7 @@ export default {
       setInterval(() => this.time(),120000);
   }, 
   mounted() {
-    // console.warn(this.timestamp+" == "+moment().format())
-    var now = moment().format()
-    var last = this.timestamp
-    var now_time = moment(now)
-    var last_time = moment(last)
-    var time_out =now_time.diff(last_time, 'hours')
-    // console.warn("Time Out : "+time_out)
-    if(time_out==0){
-      this.time_out=""
-      this.showing=false
-    }else if(time_out==1){
-      this.time_out="more 1 hr"
-      this.showing=true
-    }else if(time_out==2){
-      this.time_out="more 2 hr"
-      this.showing=true
-    }else if(time_out>=3){
-      this.time_out="more 3 hr"
-      this.showing=true
-    }
-    // console.warn(this.showing)
+    this.item.time_start = moment(this.item.time_start).format('hh:mm a')
   },
   methods: {
     async resetTag() {
@@ -187,6 +178,28 @@ export default {
       console.warn(this.list);
       
       this.room=this.list[0].room;
+
+      //------------------------- send time out ------------------------------------------------
+    var now_time = moment().tz('Asia/Bangkok')
+    var last_time = moment(this.list[0].scan_timestamp).tz('Asia/Bangkok')
+    var time_out =now_time.diff(last_time, 'minutes')
+    console.warn(time_out)
+    if(time_out>=30){
+      this.time_out="out 30 min"
+      this.colors = "#ffcc00"
+      this.showing=true
+    }else if(time_out>=20){
+      this.time_out="out 20 min"
+      this.colors = "#ffcc00"
+      this.showing=true
+    }else if(time_out>=10){
+      this.time_out="out 10 min"
+      this.colors = "#ffcc00"
+      this.showing=true
+    }else if(time_out<10){
+      this.showing=false
+      this.colors = "#ffffff"
+    }
     }
   },
 };

@@ -2,8 +2,8 @@
   <q-page class="q-pa-sm">
     <!-------------------------- From Register ---------------------------------------- -->
     <section-header
-      title="Install Tool"
-      subTitle="การลงทะเบียน Tool"
+      title="Register Object"
+      subTitle="การลงทะเบียน Tag สำหรับสิ่งของ"
     ></section-header>
     <div class="row q-gutter-col-md justify-center">
       <div class="col-9">
@@ -69,7 +69,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-2">Machine code</div>
+                <div class="col-2">Object code</div>
                 <div class="col-8">
                   <q-input
                     type="text"
@@ -80,10 +80,10 @@
                     :rules="[
                       (val) =>
                         (val && val.length > 0) ||
-                        'Please enter machine code',
+                        'Please enter object code',
                       (val) =>
                         val.length >= 20 ||
-                        'Please enter real machine code',
+                        'Please enter real object code',
                     ]"
                   />
                 </div>
@@ -172,6 +172,12 @@ export default {
       list: undefined,
     };
   },
+  created(){
+    console.warn("outline "+this.$store.getters.admin)
+    if(this.$store.getters.admin==undefined){
+        this.$router.push("/");
+    }
+  }, 
   async mounted() {
     //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 

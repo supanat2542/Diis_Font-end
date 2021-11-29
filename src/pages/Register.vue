@@ -2,8 +2,8 @@
   <q-page class="q-pa-sm">
     <!-------------------------- From Register ---------------------------------------- -->
     <section-header
-      title="Register"
-      subTitle="การลงทะเบียน Tag"
+      title="Register Person"
+      subTitle="การลงทะเบียน Tag สำหรับบุคคล"
     ></section-header>
     <div class="row q-gutter-col-md justify-center">
       <div class="col-9">
@@ -193,6 +193,12 @@ export default {
       list: undefined,
     };
   },
+  created(){
+    console.warn("outline "+this.$store.getters.admin)
+    if(this.$store.getters.admin==undefined){
+        this.$router.push("/");
+    }
+  }, 
   async mounted() {
     //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 

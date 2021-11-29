@@ -8,31 +8,30 @@
     size="30px"
   >
     <q-popup-proxy>
-      <Item-card
+      <Object-card
         :item = "item"
-      ></Item-card>
+      ></Object-card>
     </q-popup-proxy>
     
      <q-badge color="orange-8" :label="'TAG '+item.id"  />
-     <q-icon v-if="this.showing==true" class="warning text-red-9" name="warning_amber" />
+     <q-icon v-if="item.showing==true" class="warning text-red-9" name="warning" />
   </q-icon>
   
   </div>
 </template>
 
 <script>
-import ItemCard from "../components/ItemCard.vue";
+import ObjectCard from "../components/ObjectCard.vue";
 const moment = require("moment");
 export default {
   props: [
     "item"
   ],
   components: {
-    ItemCard,
+    ObjectCard,
   },
   data() {
     return {
-      showing: false,
     };
   },
 };

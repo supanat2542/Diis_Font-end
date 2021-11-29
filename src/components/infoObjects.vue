@@ -3,7 +3,7 @@
         
       <q-card-section >
         <div class="text-h6 text-blue-8">Type : {{ data.tool_name }}</div>
-        <div class="text-subtitle2">Machine code : {{ data.parcel_number }}</div>
+        <div class="text-subtitle2">Object code : {{ data.parcel_number }}</div>
         <div class="text-subtitle2">Starting position : {{ data.Owner }}</div>
       </q-card-section>
        <q-card-section>

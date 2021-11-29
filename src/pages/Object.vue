@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
     <section-header
-      title="Objects Time Line"
+      title="Objects Timeline"
       subTitle="แสดงข้อมูลของสิ่งของ"
     ></section-header>
     <!-------------------------- Infomation User ------------------------------------>
@@ -80,6 +80,10 @@ export default {
     };
   },
   async mounted() {
+        console.warn("outline "+this.$store.getters.admin)
+        if(this.$store.getters.admin==undefined){
+            this.$router.push("/");
+        }
         const url = "http://localhost:3030/api/";
         let resp = await axios.get("https://diis.herokuapp.com/api/items",{
         params: {
@@ -89,7 +93,15 @@ export default {
         this.list = resp.data.result.rows;
         console.warn("list item items");
         console.warn(this.list);
-        let resp2 = await axios.get("https://diis.herokuapp.com/api/selectlog", {
+        this.time_line()
+  },
+  created(){
+      setInterval(() => this.time_line(),120000);
+  },  
+  methods: {
+  async time_line(){
+      this.time = [];
+      let resp2 = await axios.get("https://diis.herokuapp.com/api/selectlog", {
         params: {
             device_address: this.list[0].tag_address,
             time_start: moment(this.list[0].time_start).format(
@@ -108,7 +120,7 @@ export default {
         var times = moment(this.list2[0].scan_timestamp).format("hh:mm A")
         console.warn(moment(this.list2[0].scan_timestamp).format("hh:mm A"))
         if (this.list[0].time_stop == null) {
-            this.time.push("In Use Now.");
+          this.time.push("In Use Now.");
         }
         for (var i = 0; i < this.list2.length; i++) {
             if (this.list2[i].room != rooms 
@@ -134,8 +146,10 @@ export default {
         )
         );
         this.timeline.push(this.time);
+        this.time = [];
         console.warn(this.timeline);
   }
+}
 }
 </script>
 

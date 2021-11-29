@@ -14,22 +14,17 @@
       <q-img class="profile-image" src="~assets/map_2.jpg" native-context-menu>
       </q-img>
       <!--------------------------- Location Room 1207 --------------------------------- -->
-      <div class="room-1207 q-gutter-y-xl q-gutter-x-sm">
-          <div v-for="item in dashbord" :key="item.id">
-              <icon-map
-              v-if="item.location == 1207" 
-                class="col"
-                :visitor="item"
-              ></icon-map>
+      <div class="room-1207 row q-gutter-y-md q-gutter-x-sm">
+          <div v-for="item in dashbord.slice(0, 8)" :key="item.id" v-if="item.location == 1207" class="col-5">
+              <icon-map v-if="item.type == 'visitor'" :visitor="item" ></icon-map>
+              <icon-item v-if="item.type == 'item'" :item="item" ></icon-item>
           </div>
       </div>
       <!--------------------------- Location Room GEOLAB --------------------------------- -->
-      <div class="room-GEOLAB row q-gutter-y-md">
-        <div v-for="item in dashbord"  :key="item.id">
-          <icon-map class="col-4"
-            v-if="item.location == 'GEOLAB'"
-            :visitor="item"
-          ></icon-map>
+      <div class="room-GEOLAB row q-gutter-y-md q-gutter-x-md">
+        <div v-for="item in dashbord.slice(0, 9)"  :key="item.id" v-if='item.location == "GEOLAB"' class="col-3">
+          <icon-map v-if="item.type == 'visitor'" :visitor="item" ></icon-map>
+          <icon-item v-if="item.type == 'item'" :item="item" ></icon-item>
         </div>
       </div>
     </div>
@@ -39,30 +34,25 @@
       </q-img>
       <!--------------------------- Location 1405 --------------------------------- -->
       <div class="room-1405 row q-gutter-y-lg ">
-         <div v-for="item in dashbord" :key="item.id" class="col-4">
-          <icon-map v-if="item.location == '1405' && item.type == 'visitor'" :visitor="item" ></icon-map>
-          <icon-item v-if="item.location == '1405' && item.type == 'item'" :item="item" ></icon-item>
+         <div  v-for="item in dashbord.slice(0, 9)" :key="item.id" v-if='item.location == 1405' class="col-4">
+           <icon-map v-if="item.type == 'visitor'" :visitor="item" ></icon-map>
+           <icon-item v-if="item.type == 'item'" :item="item" ></icon-item>
          </div>
       </div>
       
       <!--------------------------- Location Room 1406 --------------------------------- -->
       <div class="room-1406 row q-gutter-y-lg">
-          <div v-for="item in dashbord" :key="item.id" class="col-4">
-              <icon-map
-              v-if="item.location == 1406 && item.type == 'visitor'" :visitor="item"
-              ></icon-map>
-              <icon-item v-if="item.location == '1406' && item.type == 'item'" :item="item" ></icon-item>
+          <div v-for="item in dashbord.slice(0, 6)" :key="item.id" v-if='item.location == 1406' class="col-4">
+              <icon-map v-if="item.type == 'visitor'" :visitor="item" ></icon-map>
+              <icon-item v-if="item.type == 'item'" :item="item" ></icon-item>
           </div>
       </div>
       <!--------------------------- Location Room 1408 --------------------------------- -->
       <div class="room-1408 row q-gutter-y-mb ">
-        <template v-for="item in dashbord">
-          <div v-if="item.location == 1408" :key="item.id" class="col-3">
-            <icon-map
-              :visitor="item"
-            ></icon-map>
-          </div>
-        </template>
+        <div v-for="item in dashbord.slice(0, 9)" :key="item.id"  v-if='item.location == 1408' class="col-4">
+            <icon-map v-if="item.type == 'visitor'" :visitor="item" ></icon-map>
+            <icon-item v-if="item.type == 'item'" :item="item" ></icon-item>
+        </div>
       </div>
       
     </div>
@@ -91,13 +81,12 @@ export default {
     };
   },
   created(){
+    if(this.$store.getters.admin==undefined){
+        this.$router.push("/");
+    }
       setInterval(() => this.time(),60000);
   }, 
   async mounted() {
-    
-    // setTimeout(function () {
-    //   location.reload(1);
-    // }, 60000);
     //<------------------------- Connect Database ----------------------------------->
 
     let resp = await axios.get("https://diis.herokuapp.com/api/visitors",{
@@ -120,14 +109,6 @@ export default {
 
     //<-------------------------Create Dashbord ----------------------------------->
     for (var i = 0; i < this.list.length; i++) {
-      // let resp3 = await axios.get("https://diis.herokuapp.com/api/scanlog",{
-      // params: {
-      //   tag_address: this.list[i].tag_address,
-      //   time_start: moment(this.list[i].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-      //   time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
-      // }});
-      // this.list3 = resp3.data.result.rows;
-      // console.warn(this.list3);
       const newItem = {
              id: this.list[i].tag_id,
              tag_address: this.list[i].tag_address,
@@ -138,8 +119,10 @@ export default {
              category: this.list[i].category,
              visitor_id: this.list[i].visitor_id,
              time_start: this.list[i].time_start,
-             location: "this.list3[0].room",
-             floors:'"floors "+this.list3[0].floor',
+             time_out: '',
+             colors:'',
+             location: '',
+             floors:'',
              type:"visitor",
       };
       this.dashbord.push(newItem);
@@ -153,9 +136,12 @@ export default {
               parcel_number:this.list2[j].parcel_number,
               tool_person:this.list2[j].tool_person,
               detail:this.list2[j].detail,
-              location: "this.list3[0].room",
               time_start: moment(this.list2[j].time_start).format(),
-              floors:'"floors "+this.list2[0].floor',
+              item_id:this.list2[j].item_id,
+              time_out: '',
+              colors:'',
+              location: '',
+              floors:'',
               type: 'item'
       };
       this.dashbord.push(newItem);
@@ -177,7 +163,29 @@ export default {
       console.warn(this.list);
       this.dashbord[a].location=this.list[0].room;
       this.dashbord[a].floors=this.list[0].floor;
+         //------------------------- send time out ------------------------------------------------
+        var now_time = moment().tz('Asia/Bangkok')
+        var last_time = moment(this.list[0].scan_timestamp).tz('Asia/Bangkok')
+        var time_out =now_time.diff(last_time, 'minutes')
+        console.warn(time_out)
+        if(time_out>=30){
+          this.dashbord[a].time_out="out 30 min"
+          this.dashbord[a].colors = "#ffcc00"
+          this.dashbord[a].showing=true
+        }else if(time_out>=20){
+          this.dashbord[a].time_out="out 20 min"
+          this.dashbord[a].colors = "#ffcc00"
+          this.dashbord[a].showing=true
+        }else if(time_out>=10){
+          this.dashbord[a].time_out="out 10 min"
+          this.dashbord[a].colors = "#ffcc00"
+          this.dashbord[a].showing=true
+        }else if(time_out<10){
+          this.dashbord[a].showing=false
+          this.dashbord[a].colors = "#ffffff"
         }
+        }
+        console.warn(this.dashbord)
     }
   }
 };
@@ -199,18 +207,18 @@ img {
 }
 .room-GEOLAB {
   position: absolute;
-  top: 40%;
-  left: 48%;
-  width: 250px;
-  height: 220px;
+  top: 20%;
+  left: 72%;
+  width: 300px;
+  height: 190px;
   overflow: hidden;
 }
 .room-1207 {
   position: absolute;
-  top: 15%;
-  left: 59%;
-  width: 60px;
-  height: 250px;
+  top: 20%;
+  left: 10%;
+  width: 200px;
+  height: 330px;
   overflow: hidden;
 }
 .room-1406 {
@@ -218,7 +226,7 @@ img {
   top: 22%;
   left: 24.5%;
   width: 200px;
-  height: 250px;
+  height: 180px;
   overflow: hidden;
 }
 .room-1408 {

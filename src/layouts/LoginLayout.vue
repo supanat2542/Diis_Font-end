@@ -1,11 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
       <q-toolbar class="tab-bar">
-        <q-toolbar-title style="font-size:50px;margin : 10px;">   
-   <q-img class="title-photo" src="~assets/psulogo.png" native-context-menu></q-img>
+        <q-toolbar-title style="margin : 10px;">   
+            <q-img class="title-photo" src="~assets/psulogo.png" native-context-menu></q-img>
         </q-toolbar-title>
-
-       <a class="active"> BY ManaLab PSU</a>
+       <a class="active"> BY MDK Group 2</a>
       </q-toolbar>    
     <q-page-container>
       <router-view />
@@ -45,16 +44,15 @@ $menu-bar-color: lightgray;
     text-shadow: 2px;
   }
    .title-photo{
-    width:40%;
-    text-align: center;
-    margin: auto;
+    width:10%;
+    
   }
   a {
   color: #2b2a2a;
   display:inline-block;
   text-decoration: none;
   font-weight: 400;
-}
+  }
 
 
 </style>

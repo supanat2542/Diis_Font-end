@@ -12,8 +12,10 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
+    "firebaseui": "^6.0.0",
     "moment-timezone": "^0.5.34",
-    "quasar": "^1.0.0"
+    "quasar": "^1.0.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0"

@@ -16,7 +16,7 @@
 <q-tab-panels v-model="panel" animated  transition-prev="fade" transition-next="fade" style="background-color: #eceff1">
         <q-tab-panel name="persons">
           <q-tabs v-model="tab" class="q-mb-lg">
-            <q-tab class="text-purple" name="Dairy" label="Dairy" />
+            <q-tab class="text-purple" name="Daily" label="Daily" />
             <q-tab class="text-orange" name="Monthly" label="Monthly" />
             <q-tab class="text-teal" name="Select Date" label="Select Date" />
           </q-tabs>
@@ -28,10 +28,10 @@
             style="background-color: #eceff1"
           >
             <!-- =================================================== Print Day ==================================================================== -->
-            <q-tab-panel name="Dairy">
+            <q-tab-panel name="Daily">
               <div class="q-pa-md">
                 <q-table
-                  :title="`Timeline Dairy - ` + this.date"
+                  :title="`Timeline Daily - ` + this.today"
                   :data="list_day"
                   :columns="columns"
                   row-key="name"
@@ -237,7 +237,7 @@
 
 <script>
 import SectionHeader from "../components/SectionHeader.vue";
-const moment = require("moment");
+const moment = require("moment-timezone");
 import { axios } from "boot/axios";
 import { ref } from 'vue'
 
@@ -248,9 +248,10 @@ export default {
   data() {
     return {
       panel:'persons',
-      tab: "Dairy",
+      tab: "Daily",
       select_room: null,
-      date: moment().format("[Date] DD"),
+      date:'',
+      today: moment().format("[Date] DD"),
       month: moment().format("YYYY/MM"),
       list_month: [],
       list_day: [],
@@ -348,101 +349,70 @@ export default {
       
   },
   async mounted() {
-    
-    // setTimeout(function () {
-    //   location.reload(1);
-    // }, 60000);
+    console.warn("outline "+this.$store.getters.admin)
+    if(this.$store.getters.admin==undefined){
+        this.$router.push("/");
+    }
     //<------------------------- Connect Database ----------------------------------->
     const url = "http://localhost:3030/api/" 
     let resp1 = await axios.get("https://diis.herokuapp.com/api/visitors");
     this.list1 = resp1.data.result.rows;
     console.warn("Visitor ");
     console.warn(resp1.data.result.rows); 
-    let resp2 = await axios.get("https://diis.herokuapp.com/api/scanlog");
-    this.list2 = resp2.data.result.rows;
-    console.warn("list2 scanerlog kk");
-    console.warn(this.list2);
 
     let resp3 = await axios.get("https://diis.herokuapp.com/api/locations");
     this.list3 = resp3.data.result.rows;
     console.warn("list3 room");
     console.warn(this.list3);
+    for(var k = 0; k < this.list3.length; k++){
+      this.options.push(this.list3[k].room)
+    }
 
-////item/////
+    ////item/////
     let resp4 = await axios.get("https://diis.herokuapp.com/api/items");
     this.list4 = resp4.data.result.rows;
     console.warn("list4 items");
     console.warn(this.list4);
 
-    for(var k = 0; k < this.list3.length; k++){
-      this.options.push(this.list3[k].room)
-    }
-    console.warn(this.options)
-  //<------------------------- Create Dashbord ----------------------------------->
-    console.warn("Time -------------- : "+moment().format())
-    console.warn("Time -------------- : "+moment().format("hh:mm A"))
-    for (var i = 0; i < this.list1.length; i++) {
-      for (var j = 0; j < this.list2.length; j++) {
-      // console.warn("visitor_id l : "+this.list2[j].scan_timestamp)
-      moment().format("hh:mm A")
-        // console.warn("Test login "+ i+" : " +moment(this.list1[i].time_stop).format("hh:mm A")+" : "+ j +" : "+moment(this.list2[j].scan_timestamp).format("hh:mm A"))
-        if (this.list1[i].time_stop == null) {
-          // console.warn("visitor_id In : "+this.list1[i].visitor_id)
-          const newItem = {
-            id: this.list1[i].visitor_id,
-            date: moment(this.list1[i].time_start).format("YYYY-MM-DD"),
-            location: this.list2[j].room,
-            name: this.list1[i].first_name + " " + this.list1[i].last_name,
-            time_start: moment(this.list1[i].time_start).format("hh:mm"),
-            time_stop: "In Use",
-            type: this.list1[i].category,
-            tag_address:this.list1[i].tag_address
-          };
-          this.dashbord.push(newItem);
-          break
-        }else if(moment(this.list1[i].time_stop).format("hh:mm A") == moment(this.list2[j].scan_timestamp).format("hh:mm A")){
-          // console.warn("visitor_id Out : "+this.list1[i].visitor_id)
-          const newItem = {
-            id: this.list1[i].visitor_id,
-            date: moment(this.list1[i].time_start).format("YYYY-MM-DD"),
-            location: this.list2[j].room,
-            name: this.list1[i].first_name + " " + this.list1[i].last_name,
-            time_start: moment(this.list1[i].time_start).format("hh:mm"),
-            time_stop: moment(this.list1[i].time_stop).format("hh:mm"),
-            type: this.list1[i].category,
-            tag_address:this.list1[i].tag_address
-          };
-          this.dashbord.push(newItem);
-          break
-        }
-      }
-    }
-    console.warn("Time line all")
-    console.warn(this.dashbord)
 
-     for(var i = 0; i < this.list4.length; i++){
-       const newItem = {
-            Owner: this.list4[i].Owner,
-            item_id: this.list4[i].item_id,
-            parcel_number: this.list4[i].parcel_number,
-            tag_address: this.list4[i].tag_address,
-            tag_id: this.list4[i].tag_id,
-            time_start: this.list4[i].time_start,
-            time_stop: this.list4[i].time_stop,
-            tool_name: this.list4[i].tool_name,
-            tool_person: this.list4[i].tool_person,
-            location: "Hall",
-          };
-          this.list_object.push(newItem);
-     }
-    console.warn("Object ")
-    console.warn(this.list_object)
+      for (var i = 0; i < this.list1.length; i++) {
+        if(this.list1[i].time_stop==null){
+            const newItem = {
+              id: this.list1[i].visitor_id,
+              date: moment(this.list1[i].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD"),
+              location: "",
+              name: this.list1[i].first_name + " " + this.list1[i].last_name,
+              timestart:  moment(this.list1[i].time_start).tz('Asia/Bangkok').format(),
+              time_start: moment(this.list1[i].time_start).tz('Asia/Bangkok').format("hh:mm"),
+              time_stop: "In Use",
+              type: this.list1[i].category,
+              tag_address:this.list1[i].tag_address
+            };
+            this.dashbord.push(newItem);
+        }else{
+            const newItem = {
+              id: this.list1[i].visitor_id,
+              date: moment(this.list1[i].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD"),
+              location: "1405",
+              name: this.list1[i].first_name + " " + this.list1[i].last_name,
+              timestart:  moment(this.list1[i].time_start).tz('Asia/Bangkok').format(),
+              timestop:  moment(this.list1[i].time_stop).tz('Asia/Bangkok').format(),
+              time_start: moment(this.list1[i].time_start).tz('Asia/Bangkok').format("hh:mm"),
+              time_stop: moment(this.list1[i].time_stop).tz('Asia/Bangkok').format("hh:mm"),
+              type: this.list1[i].category,
+              tag_address:this.list1[i].tag_address
+            };
+            this.dashbord.push(newItem);
+        }
+        console.warn(this.dashbord)
+        this.time()
+        this.time_object()
+        
+      }
+        
       for (var i = 0; i < this.dashbord.length; i++) {
         //<------------------------- List Day ----------------------------------->
-        if (
-          moment(this.dashbord[i].date).format("YYYY-MM-DD") ==
-          moment().format("YYYY-MM-DD")
-        ) {
+        if ( moment(this.dashbord[i].date).tz('Asia/Bangkok').format("YYYY-MM-DD") == moment().tz('Asia/Bangkok').format("YYYY-MM-DD") ) {
           const newItems = {
             id: this.dashbord[i].id,
             date: this.dashbord[i].date,
@@ -455,10 +425,7 @@ export default {
           this.list_day.push(newItems);
         }
         //<------------------------- List Mounth ----------------------------------->
-        if (
-          moment(this.dashbord[i].date).format("YYYY-MM") ==
-          moment().format("YYYY-MM")
-        ) {
+        if ( moment(this.dashbord[i].date).tz('Asia/Bangkok').format("YYYY-MM") ==  moment().tz('Asia/Bangkok').format("YYYY-MM") ) {
           const newItems = {
             id: this.dashbord[i].id,
             date: this.dashbord[i].date,
@@ -471,122 +438,232 @@ export default {
           this.list_month.push(newItems);
         }
       }
-      //<------------------------- Print Test ----------------------------------->
-      console.warn("List Day ")
-      console.warn(this.list_day);
-      console.warn("List Mounth ")
-      console.warn(this.list_month);
+
+     for(var i = 0; i < this.list4.length; i++){
+       const newItem = {
+            Owner: this.list4[i].Owner,
+            item_id: this.list4[i].item_id,
+            parcel_number: this.list4[i].parcel_number,
+            tag_address: this.list4[i].tag_address,
+            tag_id: this.list4[i].tag_id,
+            time_start: this.list4[i].time_start,
+            time_stop: this.list4[i].time_stop,
+            tool_name: this.list4[i].tool_name,
+            tool_person: this.list4[i].tool_person,
+            location: "",
+          };
+          this.list_object.push(newItem);
+     }
+    console.warn("Object ")
+    console.warn(this.list_object)
       this.list_select = this.dashbord;
       console.warn(this.list_select);
     },
+    created(){
+      this.time_object()
+      this.time()
+      setInterval(() => this.time(),120000);
+      setInterval(() => this.time_object(),120000);
+
+    },  
     methods: {
       //<------------------------- Select Date ----------------------------------->
+
       async select() {
-        // console.warn(this.date);
-        console.warn("Date : "+this.date)
-        console.warn("Room : "+this.select_room)
-         this.list_select = [];
-        if(this.date==null&&this.select_room==null){
+        this.list_select = []
+        if(this.date==''&&this.select_room==null){
+          console.warn("case 1 = =")
           this.list_select = this.dashbord;
-          console.warn("Test : 1 ==")
-        }else if(this.date!=null&&this.select_room==null){
-          console.warn("Test : 2 !=")
-          for (var i = 0; i < this.dashbord.length; i++) {
-          if (moment(this.dashbord[i].date).format("YYYY/MM/DD") == this.date) {
-            const newItems = {
-              id: this.dashbord[i].id,
-              date: this.dashbord[i].date,
-              location: this.dashbord[i].location,
-              name: this.dashbord[i].name,
-              time_start: this.dashbord[i].time_start,
-              time_stop: this.dashbord[i].time_stop,
-              type: this.dashbord[i].type,
-            };
-            this.list_select.push(newItems);
-          }
-          }
-        }else if(this.date!=null&&this.select_room!=null){
-          console.warn("Test : 3 !!")
-          console.warn("Date : "+this.date)
-          console.warn("Room : "+this.select_room)
-          console.warn(moment(this.dashbord[0].date).format("YYYY/MM/DD")+"XXXXXXXXX"+this.date)
-          for (var i = 0; i < this.dashbord.length; i++) {
-            for(var j = 0; j < this.list2.length; j++){
-              if(this.dashbord[i].time_start<=moment(this.list2[j].scan_timestamp).format("hh:mm")&&this.dashbord[i].time_stop=="In Use"&&this.dashbord[i].tag_address==this.list2[j].device_address&&this.list2[j].room==this.select_room&&moment(this.dashbord[i].date).format("YYYY/MM/DD")==this.date){
-                console.warn("Room 1"+this.dashbord[i].location)
-                const newItems = {
-                   id: this.dashbord[i].id,
-                   date: this.dashbord[i].date,
-                   location: this.dashbord[i].location,
-                   name: this.dashbord[i].name,
-                   time_start: this.dashbord[i].time_start,
-                   time_stop: this.dashbord[i].time_stop,
-                   type: this.dashbord[i].type,
-                   };
-                  this.list_select.push(newItems);
-                break
-              }else if(this.dashbord[i].time_start<=moment(this.list2[j].scan_timestamp).format("hh:mm")&&this.dashbord[i].time_stop>=moment(this.list2[j].scan_timestamp).format("hh:mm")&&this.dashbord[i].tag_address==this.list2[j].device_address&&this.list2[j].room==this.select_room&&moment(this.dashbord[i].date).format("YYYY/MM/DD")==this.date){
-                console.warn("Room 2 "+this.dashbord[i].location)
-                const newItems = {
-                   id: this.dashbord[i].id,
-                   date: this.dashbord[i].date,
-                   location: this.dashbord[i].location,
-                   name: this.dashbord[i].name,
-                   time_start: this.dashbord[i].time_start,
-                   time_stop: this.dashbord[i].time_stop,
-                   type: this.dashbord[i].type,
-                   };
-                  this.list_select.push(newItems);
-                break
-              }
+        }else if(this.date!=''&&this.select_room==null){
+          console.warn("case 2 ! =")
+          for(var i = 0; i < this.dashbord.length; i++){
+            console.warn("cout "+this.dashbord.length)
+            console.warn(i)
+            if(moment(this.dashbord[i].date).tz('Asia/Bangkok').format("YYYY/MM/DD")==this.date){
+              const newItems = {
+                id: this.dashbord[i].id,
+                date: this.dashbord[i].date,
+                location: this.dashbord[i].location,
+                name: this.dashbord[i].name,
+                time_start: this.dashbord[i].time_start,
+                time_stop: this.dashbord[i].time_stop,
+                type: this.dashbord[i].type,
+              };
+              this.list_select.push(newItems);
             }
           }
-        }else if(this.date==null&&this.select_room!=null){
-          console.warn("Test : 4 =!")
-          for (var i = 0; i < this.dashbord.length; i++) {
-            for(var j = 0; j < this.list2.length; j++){
-              // console.warn("------------------------------------------------------")
-              // console.warn(this.dashbord[i].time_start+" ==== "+moment(this.list2[j].scan_timestamp).format("hh:mm"))
-              // console.warn(this.dashbord[i].time_stop+" ------- "+moment(this.list2[j].scan_timestamp).format("hh:mm"))
-              // console.warn(this.dashbord[i].tag_address+" ==== "+this.list2[j].device_address)
-              if(this.dashbord[i].time_start<=moment(this.list2[j].scan_timestamp).format("hh:mm")&&this.dashbord[i].time_stop=="In Use"&&this.dashbord[i].tag_address==this.list2[j].device_address&&this.list2[j].room==this.select_room){
-                console.warn("Room 1"+this.dashbord[i].location)
+        }else if(this.date==''&&this.select_room!=null){
+          console.warn("case 3 = !")
+          console.warn("select "+this.select_room)
+          for(var i = 0; i < this.dashbord.length; i++){
+            if(this.dashbord[i].time_stop=="In Use"){
+              console.warn("null")
+              let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+                  params: {
+                    tag_address: this.dashbord[i].tag_address,
+                    time_start: moment(this.dashbord[i].timestart).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+                    time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+                    room:this.select_room,
+                  }});
+               this.list = resp.data.result.rows;
+               console.warn("this.list");
+               console.warn(this.list);
+               if(this.list.length>0){
                 const newItems = {
-                   id: this.dashbord[i].id,
-                   date: this.dashbord[i].date,
-                   location: this.dashbord[i].location,
-                   name: this.dashbord[i].name,
-                   time_start: this.dashbord[i].time_start,
-                   time_stop: this.dashbord[i].time_stop,
-                   type: this.dashbord[i].type,
-                   };
+                  id: this.dashbord[i].id,
+                  date: this.dashbord[i].date,
+                  location: this.dashbord[i].location,
+                  name: this.dashbord[i].name,
+                  time_start: this.dashbord[i].time_start,
+                  time_stop: this.dashbord[i].time_stop,
+                  type: this.dashbord[i].type,
+                };
+                this.list_select.push(newItems);
+               }
+               
+            }else{
+              console.warn("unnull")
+               let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+                  params: {
+                    tag_address: this.dashbord[i].tag_address,
+                    time_start: moment(this.dashbord[i].timestart).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+                    time_stop: moment(this.dashbord[i].timestop).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+                    room:this.select_room,
+                  }});
+               this.list = resp.data.result.rows;
+               console.warn("this.list");
+               console.warn(this.list);
+               if(this.list.length>0){
+                 const newItems = {
+                    id: this.dashbord[i].id,
+                    date: this.dashbord[i].date,
+                    location: this.dashbord[i].location,
+                    name: this.dashbord[i].name,
+                    time_start: this.dashbord[i].time_start,
+                    time_stop: this.dashbord[i].time_stop,
+                    type: this.dashbord[i].type,
+                  };
                   this.list_select.push(newItems);
-                break
-              }else if(this.dashbord[i].time_start<=moment(this.list2[j].scan_timestamp).format("hh:mm")&&this.dashbord[i].time_stop>=moment(this.list2[j].scan_timestamp).format("hh:mm")&&this.dashbord[i].tag_address==this.list2[j].device_address&&this.list2[j].room==this.select_room){
-                console.warn("Room 2 "+this.dashbord[i].location)
+               }
+               
+            }
+          }
+        }else if(this.date!=''&&this.select_room!=null){
+          console.warn("case 4 ! !")
+          for(var i = 0; i < this.dashbord.length; i++){
+            console.warn("cout "+this.dashbord.length)
+            console.warn(i)
+            if(moment(this.dashbord[i].date).tz('Asia/Bangkok').format("YYYY/MM/DD")==this.date){
+              if(this.dashbord[i].time_stop=="In Use"){
+              console.warn("null")
+              let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+                  params: {
+                    tag_address: this.dashbord[i].tag_address,
+                    time_start: moment(this.dashbord[i].timestart).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+                    time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+                    room:this.select_room,
+                  }});
+               this.list = resp.data.result.rows;
+               console.warn("this.list");
+               console.warn(this.list);
+               if(this.list.length>0){
                 const newItems = {
-                   id: this.dashbord[i].id,
-                   date: this.dashbord[i].date,
-                   location: this.dashbord[i].location,
-                   name: this.dashbord[i].name,
-                   time_start: this.dashbord[i].time_start,
-                   time_stop: this.dashbord[i].time_stop,
-                   type: this.dashbord[i].type,
-                   };
+                  id: this.dashbord[i].id,
+                  date: this.dashbord[i].date,
+                  location: this.dashbord[i].location,
+                  name: this.dashbord[i].name,
+                  time_start: this.dashbord[i].time_start,
+                  time_stop: this.dashbord[i].time_stop,
+                  type: this.dashbord[i].type,
+                };
+                this.list_select.push(newItems);
+               }
+               
+            }else{
+              console.warn("unnull")
+               let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+                  params: {
+                    tag_address: this.dashbord[i].tag_address,
+                    time_start: moment(this.dashbord[i].timestart).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+                    time_stop: moment(this.dashbord[i].timestop).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+                    room:this.select_room,
+                  }});
+               this.list = resp.data.result.rows;
+               console.warn("this.list");
+               console.warn(this.list);
+               if(this.list.length>0){
+                 const newItems = {
+                    id: this.dashbord[i].id,
+                    date: this.dashbord[i].date,
+                    location: this.dashbord[i].location,
+                    name: this.dashbord[i].name,
+                    time_start: this.dashbord[i].time_start,
+                    time_stop: this.dashbord[i].time_stop,
+                    type: this.dashbord[i].type,
+                  };
                   this.list_select.push(newItems);
-                break
+               }
               }
             }
           }
         }
-        
-        console.warn(this.list_select);
       },
       async showdata() {
-        // console.warn(this.date);
         this.select_room= null,
+        this.date='',
         this.list_select = this.dashbord;
       },
+      async time(){
+       for(var i = 0; i < this.dashbord.length; i++){
+         if(this.dashbord[i].time_stop=="In Use"){
+           let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+            params: {
+              tag_address: this.dashbord[i].tag_address,
+              time_start: moment(this.dashbord[i].timestart).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+              time_stop: moment(this.dashbord[i].timestop).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+            }});
+          this.list = resp.data.result.rows;
+          console.warn("this.list");
+          console.warn(this.list);
+          this.dashbord[i].location=this.list[0].room;
+          for(var j = 0; j < this.list_day.length; j++){
+            if(this.list_day[j].id==this.dashbord[i].id){
+              this.list_day[i].location=this.list[0].room;
+              break;
+            }
+          }
+          for(var j = 0; j < this.list_month.length; j++){
+            if(this.list_month[j].id==this.dashbord[i].id){
+              this.list_month[i].location=this.list[0].room;
+              break;
+            }
+          }
+         }else{
+           break;
+         }
+       }
+      },
+      async time_object(){
+       for(var i = 0; i < this.list_object.length; i++){
+         if(this.list_object[i].time_stop==null){
+           console.warn("null is yes")
+            let resp = await axios.get("https://diis.herokuapp.com/api/scanlog",{
+            params: {
+              tag_address: this.list_object[i].tag_address,
+              time_start: moment(this.list_object[i].time_start).tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+              time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
+            }});
+            this.list = resp.data.result.rows;
+            console.warn("this.list");
+            console.warn(this.list);
+            this.list_object[i].location=this.list[0].room;
+         }else{
+           console.warn("un null is no")
+           this.list_object[i].location="1405"
+         }
+         
+       }
+      }
   },
 };
 </script>

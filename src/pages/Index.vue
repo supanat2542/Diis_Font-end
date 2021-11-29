@@ -1,37 +1,39 @@
 <template>
   <q-page class="q-pa-sm">
-    <section-header
-      title="Dashboard"
-      subTitle="ศูนย์กลางการควบคุม"
-    ></section-header>
-    <!-------------------------- Driver Card ------------------------------------>
-    <section-header
-      title="Persons"
-    ></section-header>
-      <div class="row q-gutter-col-md">
-      <a v-for="item in dashbord" :key="item.id" class="q-gutter-col-md">
-          <device-card
-            v-if="item.type == 'visitor'"
-            :visitor="item"
-          ></device-card>
-          <add-card v-else-if="item.type == 'add_card'" :id="item.id"></add-card>
-      </a>
-    </div>
-    <!-- <q-btn @click=onSubmits()>enter send data</q-btn> -->
-    <section-header
-      title="Objects"
-    ></section-header>
-    
-    <div class="row q-gutter-col-md">
-     <div v-for="item in dashbord" :key="item.id" class="row q-gutter-row-md">
-        <div v-if="item.type == 'item'" >
-          <item-card
-          :item="item"
-          ></item-card>
+      <section-header
+        title="Dashboard"
+        subTitle="ศูนย์กลางการควบคุม"
+      ></section-header>
+      <!-------------------------- Driver Card ------------------------------------>
+        <div class="row q-gutter-col-md">
+        <a v-for="item in dashbord" :key="item.id" class="q-gutter-col-md">
+            <add-card v-if="item.type == 'add_card'" :id="item.id"></add-card>
+        </a>
         </div>
-     </div>
-     
-     </div>
+        <section-header
+          v-if="this.person==true"
+          title="Persons"
+        ></section-header>
+          <div class="row q-gutter-col-md">
+          <a v-for="item in dashbord" :key="item.id" class="q-gutter-col-md">
+              <device-card v-if="item.type == 'visitor'" :visitor="item" ></device-card>
+          </a>
+        </div>
+        
+        <section-header
+          v-if="this.object==true"
+          title="Objects"
+        ></section-header>
+        <div class="row q-gutter-col-md">
+        <div v-for="item in dashbord" :key="item.id" class="row q-gutter-row-md">
+            <div v-if="item.type == 'item'" >
+              <item-card
+              :item="item"
+              ></item-card>
+            </div>
+        </div>
+      
+      </div>
   </q-page>
 </template>
 
@@ -53,13 +55,19 @@ export default {
   data() {
     return {
       dashbord: [],
+      person: false,
+      object: false,
     };
   },
+  created(){
+    console.warn("outline "+this.$store.getters.admin)
+    if(this.$store.getters.admin==undefined){
+        this.$router.push("/");
+    }
+  }, 
   async mounted() {
-    // setTimeout(function () {
-    //   location.reload(1);
-    // }, 60000);
     //<------------------------- Connect Database ----------------------------------->
+    console.warn("outline "+this.$store.getters.admin)
     const url = "http://localhost:3030/api/";
     let resp = await axios.get("https://diis.herokuapp.com/api/visitors",{
         params: {
@@ -87,6 +95,7 @@ export default {
       var count = 1 ;
       for (var j = 0; j < this.list.length; j++){
         if(this.list5[i].tag_address == this.list[j].tag_address){
+            this.person=true
             const newItem = {
               id: this.list[j].tag_id,
               visitor_id: this.list[j].visitor_id,
@@ -108,6 +117,7 @@ export default {
       }
       for (var u = 0; u < this.list2.length; u++){
         if(this.list5[i].tag_address == this.list2[u].tag_address){
+            this.object=true
             const newItem = {
               id: this.list5[i].tag_id,
               item_id: this.list2[u].item_id,
@@ -140,34 +150,5 @@ export default {
     console.warn(this.dashbord);
     
   },
-   methods: {
-    async onSubmits() {
-        console.warn("counctionss")
-        let result = await axios.post("https://diis.herokuapp.com/api/time", [
-          {
-            scanner_id: '68:4d:6b:75:fe:b5',
-            device_address: '2021-02-10 09:00:00',
-            device_name : '2021-02-10 19:00:00',
-            device_appearance: '2021-02-10 19:00:00',
-            device_manufacturerdata: '2021-02-10 19:00:00',
-            device_serviceuuid: '2021-02-10 19:00:00',
-            device_txpower: '2021-02-10 19:00:00',
-            device_rssi: 1,
-          },
-          {
-            scanner_id: '68:4d:6b:75:fe:b5',
-            device_address: '2021-02-10 09:00:00',
-            device_name : '2021-02-10 19:00:00',
-            device_appearance: '2021-02-10 19:00:00',
-            device_manufacturerdata: '2021-02-10 19:00:00',
-            device_serviceuuid: '2021-02-10 19:00:00',
-            device_txpower: '2021-02-10 19:00:00',
-            device_rssi: 1,
-          },
-        ]);
-        console.warn(result);
-     
-    },
-  }
 };
 </script>

@@ -181,6 +181,12 @@ export default {
     };
     
   },
+  created(){
+    console.warn("outline "+this.$store.getters.admin)
+    if(this.$store.getters.admin==undefined){
+        this.$router.push("/");
+    }
+  }, 
   async mounted() {
     //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 

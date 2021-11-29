@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
     <section-header
-      title="Time Line"
+      title="Timeline"
       subTitle="แสดงข้อมูลการใช้งานของ User"
     ></section-header>
     <!-------------------------- Infomation User ------------------------------------>
@@ -82,16 +82,17 @@ export default {
       timeline: [],
       time: [],
       list: [],
-      list2: undefined,
+      list2: [],
       tag: undefined,
       showing: false,
       time_out:""
     };
   },
   async mounted() {
-    // setTimeout(function () {
-    //   location.reload(1);
-    // }, 60000);
+    console.warn("outline "+this.$store.getters.admin)
+    if(this.$store.getters.admin==undefined){
+        this.$router.push("/");
+    }
     //<------------------------- Connect Database ----------------------------------------------------------->
     const url = "http://localhost:3030/api/";
     let resp1 = await axios.get("https://diis.herokuapp.com/api/visitors",{
@@ -102,6 +103,15 @@ export default {
     this.list = resp1.data.result.rows;
     console.warn("list item visitors");
     console.warn(this.list);
+    this.time_line();
+
+  },
+  created(){
+      setInterval(() => this.time_line(),120000);
+  },  
+  methods: {
+  async time_line(){
+    this.timeline = []
     let resp2 = await axios.get("https://diis.herokuapp.com/api/selectlog", {
       params: {
         device_address: this.list[0].tag_address,
@@ -116,69 +126,31 @@ export default {
     this.list2 = resp2.data.result.rows;
     console.warn("list2 scanerlog");
     console.warn(this.list2);
-
-    //<------------------------- Create Timeline ----------------------------------->
+    if(this.list[0].time_stop == null){
+      this.time.push("In Use");
+    }
     var rooms = this.list2[0].room;
     var times = moment(this.list2[0].scan_timestamp).format("hh:mm A")
-    console.warn(moment(this.list2[0].scan_timestamp).format("hh:mm A"))
-    if (this.list[0].time_stop == null) {
-      this.time.push("In Use Now.");
-    }
-    for (var i = 0; i < this.list2.length; i++) {
-      if (this.list2[i].room != rooms 
-      // && moment(this.list2[i].scan_timestamp).format("hh:mm A") != times
-      ) {
+    for(var i = 0; i < this.list2.length; i++){
+      if (this.list2[i].room != rooms) {
         this.time.push(this.list2[i - 1].room);
-        this.time.push(
-          moment(this.list2[i].scan_timestamp).format("YYYY-MM-DD")
-        );
+        this.time.push(moment(this.list2[i].scan_timestamp).format("YYYY-MM-DD"));
         this.timeline.push(this.time);
         this.time = [];
         rooms = this.list2[i].room;
         times = moment(this.list2[i].scan_timestamp).format("hh:mm A")
         --i;
-      } else {
+      }else{
         this.time.push(moment(this.list2[i].scan_timestamp).format("hh:mm A"));
       }
     }
-
     this.time.push(this.list2[this.list2.length - 1].room);
-    this.time.push(
-      moment(this.list2[this.list2.length - 1].scan_timestamp).format(
-        "YYYY-MM-DD"
-      )
-    );
-    
+    this.time.push(moment(this.list2[this.list2.length - 1].scan_timestamp).format("YYYY-MM-DD"));
     this.timeline.push(this.time);
+    this.time = [];
     console.warn(this.timeline);
-
-     console.warn(this.list2[0].scan_timestamp+" == "+moment().format())
-    var now = moment().format()
-    var last = this.list2[0].scan_timestamp
-    var now_time = moment(now)
-    var last_time = moment(last)
-    var time_out =now_time.diff(last_time, 'hours')
-    console.warn("Time Out : "+time_out)
-    if(this.timeline[0][0]!="In Use Now."){
-      this.showing=false
-    }else{
-      if(time_out==0){
-      this.time_out=""
-      this.showing=false
-    }else if(time_out==1){
-      this.time_out=time_out+" hr"
-      this.showing=true
-    }else if(time_out==2){
-      this.time_out=time_out+" hr"
-      this.showing=true
-    }else if(time_out>=3){
-      this.time_out="more "+time_out+" hr"
-      this.showing=true
-    }
-    }
-    console.warn(this.showing)
-
-  },
+  }
+  }
 };
 </script>
 

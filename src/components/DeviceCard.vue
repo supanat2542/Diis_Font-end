@@ -1,6 +1,6 @@
 <template>
-  <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm">
-    <q-card-section class="text-primary">
+  <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm ">
+    <q-card-section class="text-primary" :style='{background:colors}' >
       <div class="row items-center no-wrap">
         <div class="col"  >
           <div class="text-center">
@@ -11,8 +11,8 @@
         </div>
         <div class="col">
           <div class="text-h6">Guest #{{ visitor.id }}</div>
-          <div class="row text-subtitle2 q-gutter-xs ">
-                <q-badge color="green-8" class="justify-center" :label="this.room" />
+          <div class="text-subtitle2 q-gutter-xs ">
+            <q-badge color="green-8" class="justify-center" :label="this.room" />
               <div class="col">
                   <q-badge v-if="this.showing==true" color="yellow-8" text-color="black" class="justify-center">
                   <q-icon
@@ -23,7 +23,6 @@
                   {{ time_out}}
                   </q-badge>
               </div>
-         
           </div>
         </div>
 
@@ -91,7 +90,7 @@
           Person to contact : {{ visitor.contract }}<br />
         </q-card-section>
         <q-card-section class="q-pt-none" style="width: 350px; margin: 15px;font-size:18px">
-          Time Start : {{ visitor.time_start }} <br />
+          Time Start : {{ this.times }} <br />
         </q-card-section>
 
         <q-card-actions align="right">
@@ -135,36 +134,16 @@ export default {
       alert: false,
       confirm: false,
       showing: false,
+      times:'',
       time_out:"",
       room:"-",
       list:[],
+      colors:""
     };
-  },
-  mounted() {
-    var now = moment().format()
-    var last = this.visitor.timestamp
-    var now_time = moment(now)
-    var last_time = moment(last)
-    var time_out =now_time.diff(last_time, 'hours')
-    console.warn(time_out)
-    if(time_out==0){
-      this.time_out=""
-      this.showing=false
-    }else if(time_out==1){
-      this.time_out="more 1 hr"
-      this.showing=true
-    }else if(time_out==2){
-      this.time_out="more 2 hr"
-      this.showing=true
-    }else if(time_out>=3){
-      this.time_out="more 3 hr"
-      this.showing=true
-    }
-    console.warn("showing  -------- "+this.time_out)
   },
   created(){
       this.time()
-      setInterval(() => this.time(),60000);
+      setInterval(() => this.time(),120000);
   },  
   methods: {
     async resetTag() {
@@ -190,8 +169,32 @@ export default {
               time_stop: moment().tz('Asia/Bangkok').format("YYYY-MM-DD HH:mm:ss"),
             }});
       this.list = resp.data.result.rows;
+      console.warn("this.list");
       console.warn(this.list);
       this.room=this.list[0].room;
+      this.times = moment(this.visitor.time_start).format("hh:mm a")
+  
+    //------------------------- send time out ------------------------------------------------
+    var now_time = moment().tz('Asia/Bangkok')
+    var last_time = moment(this.list[0].scan_timestamp).tz('Asia/Bangkok')
+    var time_out =now_time.diff(last_time, 'minutes')
+    console.warn(time_out)
+    if(time_out>=30){
+      this.time_out="out 30 min"
+      this.colors = "#ffcc00"
+      this.showing=true
+    }else if(time_out>=20){
+      this.time_out="out 20 min"
+      this.colors = "#ffcc00"
+      this.showing=true
+    }else if(time_out>=10){
+      this.time_out="out 10 min"
+      this.colors = "#ffcc00"
+      this.showing=true
+    }else if(time_out<10){
+      this.showing=false
+      this.colors = "#ffffff"
+    }
     }
   },
 };

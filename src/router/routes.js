@@ -56,13 +56,6 @@ const routes = [
     ]
   },
   {
-    path: '/detail',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/detail.vue') }
-    ]
-  },
-  {
     path: '/timeline/:id',
     component: () => import('layouts/MainLayout.vue'),
     children: [
